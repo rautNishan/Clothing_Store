@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/apis/tsconfig.app.json"
       }
     },
-    "products": {
+    "product": {
       "type": "application",
-      "root": "apps/products",
+      "root": "apps/product",
       "entryFile": "main",
-      "sourceRoot": "apps/products/src",
+      "sourceRoot": "apps/product/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/products/tsconfig.app.json"
+        "tsConfigPath": "apps/product/tsconfig.app.json"
       }
     }
   }
