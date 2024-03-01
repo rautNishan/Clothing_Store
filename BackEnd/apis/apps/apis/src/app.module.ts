@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { User_Vendor } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
 import { UserVendorController } from './modules/user-vendor/user-vendor.controller';
-import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -19,13 +17,13 @@ import * as Joi from 'joi';
         },
       },
     ]),
-    ConfigModule.forRoot({
-      envFilePath: ['.env'],
-      isGlobal: true,
-      validationSchema: Joi.object({
-        SECRET_KEY: Joi.string().required(),
-      }),
-    }),
+    // ConfigModule.forRoot({
+    //   envFilePath: ['.env'],
+    //   isGlobal: true,
+    //   validationSchema: Joi.object({
+    //     SECRET_KEY: Joi.string().required(),
+    //   }),
+    // }),
   ],
   controllers: [UserVendorController],
   providers: [],
