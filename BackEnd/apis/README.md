@@ -43,6 +43,9 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
+
+#run every services
+$ pnpm run start:all
 ```
 
 ## Test
@@ -56,6 +59,27 @@ $ pnpm run test:e2e
 
 # test coverage
 $ pnpm run test:cov
+```
+
+## .env
+
+```bash
+# port of available services
+$ MICRO_SERVICE_USER_VENDOR_PORT=
+
+# postgres
+$ DATA_BASE_TYPE=postgres
+
+$ DATA_BASE_HOST_DEVELOPMENT=
+# DATA_BASE_HOST_PRODUCTION=
+$ DATA_BASE_PORT=
+
+$ DATA_BASE_USER=
+
+$ DATA_BASE_PASSWORD=
+
+$ DATA_BASE_NAME=
+
 ```
 
 ## Support
