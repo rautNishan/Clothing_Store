@@ -3,6 +3,7 @@ import { DeepPartial, Repository } from 'typeorm';
 import { DbBaseEntity } from '../entity/base.entity';
 import {
   ICreateOptions,
+  IFindManyOptions,
   IUpdateOptions,
 } from '../interface/database.interface';
 
@@ -29,5 +30,19 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
     } else {
       return this.repository.save(data as T);
     }
+  }
+
+  async findAll(options?: IFindManyOptions<T>): Promise<T[]> {
+    const findOptions = options?.findManyOptions || {};
+    if (options?.where) {
+      findOptions.where = options.where;
+    }
+    if (options?.relations) {
+      findOptions.relations = options.relations;
+    }
+    if (options.entityManger) {
+      return options.entityManger.find(this.repository.target, findOptions);
+    }
+    return this.repository.find(findOptions);
   }
 }

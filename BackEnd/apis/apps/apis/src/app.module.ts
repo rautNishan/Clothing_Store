@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { User_Vendor } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
-import { UserVendorController } from './modules/user-vendor/user-vendor.controller';
+import { AppRouterModule } from './router/router.module';
 
 @Module({
   imports: [
@@ -24,8 +24,11 @@ import { UserVendorController } from './modules/user-vendor/user-vendor.controll
     //     SECRET_KEY: Joi.string().required(),
     //   }),
     // }),
+
+    //Router
+    AppRouterModule.forRoot(),
   ],
-  controllers: [UserVendorController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
