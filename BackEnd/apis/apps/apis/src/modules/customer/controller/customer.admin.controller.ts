@@ -1,5 +1,6 @@
 import { Controller, Post } from '@nestjs/common';
-import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
+import { CustomerAdminDocs } from '../docs/customer.admin.doc';
 @ApiTags('Customer')
 @Controller({
   path: 'customer',
@@ -8,13 +9,10 @@ import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 export class CustomerAdminController {
   constructor() {}
 
-  @ApiProperty({
-    type: 'string',
-    description: 'Create a new customer',
-  })
-  @ApiOperation({ summary: 'Create a new customer' })
+  @CustomerAdminDocs()
   @Post('/create')
   async create() {
+    console.log('Request Made to Create a new customer');
     console.log('Create a new customer');
   }
 }
