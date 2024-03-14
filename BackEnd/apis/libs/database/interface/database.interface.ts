@@ -1,6 +1,7 @@
 import {
   EntityManager,
   FindManyOptions,
+  FindOneOptions,
   FindOptionsRelations,
   FindOptionsWhere,
 } from 'typeorm';
@@ -24,7 +25,15 @@ export interface IUpdateOptions<T> {
 
 export interface IFindManyOptions<T> {
   entityManger?: EntityManager;
-  where?: FindOptionsWhere<T>;
   findManyOptions?: FindManyOptions<T>;
   relations?: FindOptionsRelations<T>;
+  withDeleted?: boolean;
+}
+
+export interface IFindOneOptions<T> {
+  entityManage?: EntityManager;
+  findOneOptions?: FindOneOptions<T>;
+  relations?: FindOptionsRelations<T>;
+  withDeleted?: boolean;
+  transaction?: boolean;
 }
