@@ -37,3 +37,26 @@ export interface IFindOneOptions<T> {
   withDeleted?: boolean;
   transaction?: boolean;
 }
+
+export interface IPaginatedOptions<T> {
+  page?: number;
+  limit?: number;
+  searchBy?: string;
+  sortOrder?: 'ASC' | 'DESC';
+  sortBy: string;
+  searchFields?: (keyof T)[];
+  sortableFields?: (keyof T)[];
+  entityManger?: EntityManager;
+  findManyOptions?: FindManyOptions<T>;
+  withDeleted?: boolean;
+  relations?: FindOptionsRelations<T>;
+}
+
+export interface IPaginationResponse<T> {
+  data?: T[];
+  limit?: number;
+  skip?: number;
+  count?: number;
+  page?: number;
+  totalPages?: number;
+}

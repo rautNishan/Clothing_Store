@@ -1,10 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
+import {
+  DeepPartial,
+  FindOneOptions,
+  FindOptionsWhere,
+  ILike,
+  Repository,
+} from 'typeorm';
 import { DbBaseEntity } from '../entity/base.entity';
 import {
   ICreateOptions,
   IFindManyOptions,
   IFindOneOptions,
+  IPaginatedOptions,
+  IPaginationResponse,
   IUpdateOptions,
 } from '../interface/database.interface';
 
@@ -33,7 +41,7 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
     }
   }
 
-  async findAll(options?: IFindManyOptions<T>): Promise<T[]> {
+  async findAll(options?: IFindManyOptions<T>): Promise<T[] | []> {
     const findOptions = options?.findManyOptions || {};
     if (options?.relations) {
       findOptions.relations = options.relations;
@@ -48,6 +56,57 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
       return options.entityManger.find(this.repository.target, findOptions);
     }
     return this.repository.find(findOptions);
+  }
+
+  async findAllWithPagination(
+    options?: IPaginatedOptions<T>,
+  ): Promise<IPaginationResponse<T>> {
+    const page: number = options?.page && options.page > 0 ? options.page : 1; //Make it 1 by Default
+    const limit: number =
+      options?.limit && options.limit > 0 ? options.limit : 10;
+    const skip: number = (page - 1) * limit;
+    const findAllWithPaginationOptions = {
+      ...options.findManyOptions,
+      take: limit, // TypeORM uses `take` for limit
+      skip: skip,
+    };
+
+    //For search
+    if (options?.searchBy && options?.searchFields.length > 0) {
+      const searchCondition: any = options.searchFields.map(
+        //todo Strict Type implementation
+        (field) =>
+          ({
+            [field]: ILike(`%${options.searchBy}%`),
+          }) as FindOptionsWhere<T>,
+      );
+      findAllWithPaginationOptions.where =
+        searchCondition.length > 1
+          ? { $or: searchCondition }
+          : searchCondition[0];
+    }
+    if (options?.relations && options.relations) {
+      findAllWithPaginationOptions.relations = options.relations;
+    }
+    if (options?.withDeleted && options.withDeleted) {
+      findAllWithPaginationOptions.withDeleted = true;
+    }
+
+    //For Sorting
+    if (options?.sortableFields) {
+      const order: any = {}; //todo strick type implementation
+      options.sortableFields.forEach((field) => {
+        order[field] = options.sortOrder || 'ASC'; // This line might need adjustment
+      });
+      findAllWithPaginationOptions.order = order;
+    }
+
+    const [data, count] = await this.repository.findAndCount(
+      findAllWithPaginationOptions,
+    );
+    const totalPages: number = Math.ceil(count / limit);
+
+    return { data, limit, skip, count, page, totalPages };
   }
 
   async findOne(options?: IFindOneOptions<T>): Promise<T | null> {
@@ -83,5 +142,22 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
       return options.entityManage.findOne(this.repository.target, findById);
     }
     return this.repository.findOne(findById);
+  }
+
+  async softDelete(repo: T, options: IUpdateOptions<T>): Promise<T> {
+    repo.deletedAt = new Date();
+    return await this.update(repo, options);
+  }
+
+  async restore(repo: T, options: IUpdateOptions<T>): Promise<T> {
+    repo.deletedAt = null;
+    return await this.update(repo, options);
+  }
+
+  async delete(repo: T, options: IUpdateOptions<T>): Promise<T> {
+    if (options?.entityManger) {
+      return options.entityManger.remove(this.repository.target, repo);
+    }
+    return this.repository.remove(repo);
   }
 }

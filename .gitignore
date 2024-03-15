@@ -13,8 +13,9 @@ lerna-debug.log*
 
 .env
 dotenv
+BackEnd/apis/.env
 
-/BackEnd/.env
+
 
 # OS
 .DS_Store
