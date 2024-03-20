@@ -1,5 +1,4 @@
 import { registerAs } from '@nestjs/config';
-
 export default registerAs('database', () => ({
   type: process.env.DATA_BASE_TYPE,
   host: process.env.DATA_BASE_HOST_DEVELOPMENT,
