@@ -1,13 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { DataSource } from 'typeorm';
-console.log({
-  host: process.env.DATA_BASE_HOST_DEVELOPMENT,
-  port: process.env.DATA_BASE_PORT,
-  username: process.env.DATA_BASE_USER,
-  password: process.env.DATA_BASE_PASSWORD,
-  database: process.env.DATA_BASE_NAME,
-});
+
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DATA_BASE_HOST_DEVELOPMENT,
@@ -15,7 +9,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DATA_BASE_USER,
   password: process.env.DATA_BASE_PASSWORD,
   database: process.env.DATA_BASE_NAME,
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+  entities: [__dirname + '/../../../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
   synchronize: false,
 });

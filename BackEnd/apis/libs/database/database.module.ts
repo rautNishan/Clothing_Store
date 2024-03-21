@@ -1,9 +1,9 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Joi from 'joi';
 import databaseConfig from './config/database.config';
 import { DatabaseService } from './services/database.service';
-import * as Joi from 'joi';
 
 @Module({
   imports: [
