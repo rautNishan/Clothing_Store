@@ -56,6 +56,9 @@ dependencies:
   winston-daily-rotate-file:
     specifier: ^5.0.0
     version: 5.0.0(winston@3.12.0)
+  winston-transport:
+    specifier: ^4.7.0
+    version: 4.7.0
 
 devDependencies:
   '@nestjs/cli':
