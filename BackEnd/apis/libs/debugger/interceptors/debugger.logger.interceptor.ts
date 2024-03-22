@@ -17,9 +17,8 @@ export class DebuggerInterceptor implements NestInterceptor<Promise<any>> {
     private readonly configService: ConfigService,
     private readonly debuggerService: DebuggerService,
   ) {
-    this.writeIntoFile = this.configService.get<boolean>(
-      'debugger.writeIntoFile',
-    );
+    this.writeIntoFile =
+      this.configService.get<boolean>('debugger.writeIntoFile') ?? false; //return false if it is undefined or null
   }
   async intercept(
     ctx: ExecutionContext,
@@ -42,19 +41,18 @@ export class DebuggerInterceptor implements NestInterceptor<Promise<any>> {
           protocol: request.protocol,
         });
       }
-
-      return next.handle().pipe(
-        tap(() => {
-          const response: Response = ctx.switchToHttp().getResponse<Response>();
-          if (this.writeIntoFile) {
-            this.debuggerService.info({
-              type: 'response',
-              statusCode: response.statusCode,
-              message: response.statusMessage,
-            });
-          }
-        }),
-      );
     }
+    return next.handle().pipe(
+      tap(() => {
+        const response: Response = ctx.switchToHttp().getResponse<Response>();
+        if (this.writeIntoFile) {
+          this.debuggerService.info({
+            type: 'response',
+            statusCode: response.statusCode,
+            message: response.statusMessage,
+          });
+        }
+      }),
+    );
   }
 }

@@ -8,7 +8,9 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        port: parseInt(process.env.MICRO_SERVICE_CUSTOMER_SERVICE_PORT) || 5001,
+        port: parseInt(
+          process.env.MICRO_SERVICE_CUSTOMER_SERVICE_PORT || '5001',
+        ),
       },
     },
   );

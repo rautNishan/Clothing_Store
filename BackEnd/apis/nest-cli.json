@@ -46,15 +46,6 @@
         "tsConfigPath": "apps/customer/tsconfig.app.json"
       }
     },
-    "vendors": {
-      "type": "application",
-      "root": "apps/vendors",
-      "entryFile": "main",
-      "sourceRoot": "apps/vendors/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/vendors/tsconfig.app.json"
-      }
-    },
     "user-vendor": {
       "type": "application",
       "root": "apps/user-vendor",

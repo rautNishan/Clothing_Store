@@ -18,7 +18,38 @@ export class CustomerService {
     data: DeepPartial<CustomerEntity>, //todo Use Create DTO Only
     options?: ICreateOptions<CustomerEntity>,
   ): Promise<CustomerEntity> {
+    if (data.userName) {
+      const existingCustomer = await this.findOne({
+        findOneOptions: {
+          where: { userName: data.userName },
+        },
+      });
+      if (existingCustomer) {
+        throw new Error('User Name Exists');
+      }
+    }
+    if (data.email) {
+      const existingEmail = await this.findOne({
+        findOneOptions: {
+          where: { email: data.email },
+        },
+      });
+      if (existingEmail) {
+        throw new Error('Email Exists.');
+      }
+    }
+    if (data.contact) {
+      const existingContact = await this.findOne({
+        findOneOptions: {
+          where: { contact: data.contact },
+        },
+      });
+      if (existingContact?.contact) {
+        throw new Error('Contact Exists.');
+      }
+    }
     return await this.customerRepository.create(data, options);
+    if (data.email) return await this.customerRepository.create(data, options);
   }
 
   async findAll(

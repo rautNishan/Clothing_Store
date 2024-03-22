@@ -133,7 +133,7 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
     return this.repository.findOne(findOneOption);
   }
 
-  async findById(id: number, options: IFindOneOptions<T>): Promise<T | null> {
+  async findById(id: number, options?: IFindOneOptions<T>): Promise<T | null> {
     const findById: FindOneOptions<T> = options?.findOneOptions ?? {};
     if (options?.transaction && options.transaction) {
       findById.transaction = true;
@@ -142,18 +142,18 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
       //Return with Relation
     }
     findById.where = { id: id as any };
-    if (options.entityManage) {
+    if (options?.entityManage) {
       return options.entityManage.findOne(this.repository.target, findById);
     }
     return this.repository.findOne(findById);
   }
 
-  async softDelete(repo: T, options: IUpdateOptions<T>): Promise<T> {
+  async softDelete(repo: T, options?: IUpdateOptions<T>): Promise<T> {
     repo.deletedAt = new Date();
     return await this.update(repo, options);
   }
 
-  async restore(repo: T, options: IUpdateOptions<T>): Promise<T> {
+  async restore(repo: T, options?: IUpdateOptions<T>): Promise<T> {
     repo.deletedAt = null;
     return await this.update(repo, options);
   }

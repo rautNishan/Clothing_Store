@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import databaseConfig from './config/database.config';
 import { DatabaseService } from './services/database.service';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 @Module({
   imports: [
@@ -23,6 +24,9 @@ import { DatabaseService } from './services/database.service';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: DatabaseService,
+      dataSourceFactory: async (options: DataSourceOptions) => {
+        return new DataSource(options).initialize();
+      },
     }),
   ],
   providers: [DatabaseService],
