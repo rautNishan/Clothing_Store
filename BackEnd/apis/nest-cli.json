@@ -4,7 +4,7 @@
   "sourceRoot": "apps/apis/src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/apis/tsconfig.app.json"
   },
   "monorepo": true,

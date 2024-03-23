@@ -27,9 +27,6 @@ export class CustomerAdminController {
       await queryRunner.commitTransaction();
       return customerData;
     } catch (error) {
-      console.log('This is error', error);
-
-      await queryRunner.rollbackTransaction();
       throw new RpcException(error);
     } finally {
       await queryRunner.release();

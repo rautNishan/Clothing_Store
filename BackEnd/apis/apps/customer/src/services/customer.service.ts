@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CustomerRepository } from '../repositry/customer.repository';
 import { DeepPartial } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
@@ -9,6 +9,7 @@ import {
   IPaginatedOptions,
   IUpdateOptions,
 } from 'libs/database/interface/database.interface';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class CustomerService {
@@ -25,7 +26,10 @@ export class CustomerService {
         },
       });
       if (existingCustomer) {
-        throw new Error('User Name Exists');
+        throw new RpcException({
+          statusCode: HttpStatus.CONFLICT,
+          message: 'User Name Exists.',
+        });
       }
     }
     if (data.email) {
@@ -35,7 +39,10 @@ export class CustomerService {
         },
       });
       if (existingEmail) {
-        throw new Error('Email Exists.');
+        throw new RpcException({
+          statusCode: HttpStatus.CONFLICT,
+          message: 'Email Exists.',
+        });
       }
     }
     if (data.contact) {
@@ -45,11 +52,15 @@ export class CustomerService {
         },
       });
       if (existingContact?.contact) {
-        throw new Error('Contact Exists.');
+        throw new RpcException({
+          statusCode: HttpStatus.CONFLICT,
+          message: 'Contact Exists.',
+        });
       }
     }
+
+    //Hash Password and Save
     return await this.customerRepository.create(data, options);
-    if (data.email) return await this.customerRepository.create(data, options);
   }
 
   async findAll(
