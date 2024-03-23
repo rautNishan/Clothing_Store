@@ -7,6 +7,7 @@ import {
 import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
 import { CustomerAdminController } from '../../modules/customer/controller/customer.admin.controller';
+import { ExceptionFilterModule } from 'libs/error/error.http.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CustomerAdminController } from '../../modules/customer/controller/custo
     ]),
     DebuggerLoggerModule,
     DebuggerModule,
+    ExceptionFilterModule,
   ],
   controllers: [CustomerAdminController],
 })

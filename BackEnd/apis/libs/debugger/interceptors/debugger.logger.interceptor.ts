@@ -64,8 +64,8 @@ export class DebuggerInterceptor implements NestInterceptor {
               protocol: request.protocol,
             },
             error: {
-              statusCode: error.error.statusCode,
-              message: error.error.message,
+              statusCode: error?.error?.statusCode,
+              message: error?.error?.message,
             },
             duration: `${duration}ms`,
           });
