@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DebuggerService } from './services/debugger.service';
 import { WinstonModule } from 'nest-winston';
-import { DebuggerOptionService } from './services/debugger.options.service';
 import { DebuggerOptionModule } from './debugger.option.module';
+import { DebuggerOptionService } from './services/debugger.options.service';
+import { DebuggerService } from './services/debugger.service';
 
 @Module({
   providers: [DebuggerService],

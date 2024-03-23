@@ -11,7 +11,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       load: [databaseConfig],
-      isGlobal: false,
+      isGlobal: true,
       validationSchema: Joi.object({
         DATA_BASE_TYPE: Joi.string().required(),
         DATA_BASE_HOST_DEVELOPMENT: Joi.string().required(),

@@ -1,42 +1,44 @@
 import { ConfigService } from '@nestjs/config';
-import winston, { LoggerOptions } from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
+import * as winston from 'winston';
+import { LoggerOptions } from 'winston';
+import * as DailyRotateFile from 'winston-daily-rotate-file';
 import * as Transport from 'winston-transport';
 import { IDebuggerOptionService } from '../interfaces/debugger.options.interface';
 
 export class DebuggerOptionService implements IDebuggerOptionService {
   constructor(private readonly configService: ConfigService) {}
   createLogger(): LoggerOptions {
-    const writeIntoFile = this.configService.get<boolean>(
-      'debugger.writeIntoFile',
-    );
-    const maxFiles = this.configService.get<string>('debugger.maxFiles');
-    const maxSize = this.configService.get<string>('debugger.maxSize');
+    const writeIntoFile = true;
+
+    const maxFiles = '7d';
+    const maxSize = '2m';
 
     const transports: Transport[] | Transport = [];
 
     if (writeIntoFile) {
       transports.push(
         new DailyRotateFile({
-          filename: `%DATE%.log`,
-          dirname: ``,
+          filename: `error-%DATE%.log`,
+          dirname: `logs/error`,
           datePattern: 'YYYY-MM-DD',
-          zippedArchive: true,
+          zippedArchive: false,
           maxFiles: maxFiles,
           maxSize: maxSize,
           level: 'error',
+          auditFile: 'logs/error',
         }),
       );
 
       transports.push(
         new DailyRotateFile({
-          filename: `%DATE%.log`,
-          dirname: ``,
+          filename: `info-%DATE%.log`,
+          dirname: `logs/info`,
           datePattern: 'YYYY-MM-DD',
           zippedArchive: true,
           maxFiles: maxFiles,
           maxSize: maxSize,
           level: 'info',
+          auditFile: 'logs/info',
         }),
       );
     }

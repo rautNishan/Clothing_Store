@@ -15,13 +15,19 @@ export class CustomerAdminController {
   @CustomerAdminDocs()
   @Post('/create')
   async create(@Body() data: CustomerCreateDto) {
-    const result = await firstValueFrom(
-      this.client.send(
-        { cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
-        data,
-      ),
-    );
-    console.log('This is Result', result);
-    return result;
+    try {
+      const result = await firstValueFrom(
+        this.client.send(
+          { cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
+          data,
+        ),
+      );
+      console.log('This is Result', result);
+      return result;
+    } catch (error) {
+      console.log('This is Error', error);
+
+      throw error;
+    }
   }
 }

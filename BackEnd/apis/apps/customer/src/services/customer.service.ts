@@ -1,7 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { CustomerRepository } from '../repositry/customer.repository';
-import { DeepPartial } from 'typeorm';
-import { CustomerEntity } from '../entity/customer.entity';
+import { RpcException } from '@nestjs/microservices';
 import {
   ICreateOptions,
   IFindManyOptions,
@@ -9,7 +7,9 @@ import {
   IPaginatedOptions,
   IUpdateOptions,
 } from 'libs/database/interface/database.interface';
-import { RpcException } from '@nestjs/microservices';
+import { DeepPartial } from 'typeorm';
+import { CustomerEntity } from '../entity/customer.entity';
+import { CustomerRepository } from '../repositry/customer.repository';
 
 @Injectable()
 export class CustomerService {

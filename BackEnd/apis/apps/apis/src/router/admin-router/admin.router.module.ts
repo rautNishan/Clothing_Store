@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CustomerAdminController } from '../../modules/customer/controller/customer.admin.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   Customer,
   User_Vendor,
 } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
+import { DebuggerModule } from 'libs/debugger/debugger.module';
+import { CustomerAdminController } from '../../modules/customer/controller/customer.admin.controller';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import {
         },
       },
     ]),
+    DebuggerLoggerModule,
+    DebuggerModule,
   ],
   controllers: [CustomerAdminController],
 })

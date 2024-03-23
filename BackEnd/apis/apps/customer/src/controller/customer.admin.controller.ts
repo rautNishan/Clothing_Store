@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, RpcException } from '@nestjs/microservices';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
-import { DeepPartial, DataSource, QueryRunner } from 'typeorm';
+import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerService } from '../services/customer.service';
 
@@ -17,7 +17,6 @@ export class CustomerAdminController {
     const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
-    console.log('This is Data', data);
     const entityManager = queryRunner.manager;
 
     try {
@@ -25,6 +24,7 @@ export class CustomerAdminController {
         entityManger: entityManager,
       });
       await queryRunner.commitTransaction();
+
       return customerData;
     } catch (error) {
       throw new RpcException(error);

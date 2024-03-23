@@ -4,54 +4,72 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { DebuggerService } from '../services/debugger.service';
-import { Observable, tap } from 'rxjs';
-import { IRequestApp } from 'libs/request/request.interface';
 import { Response } from 'express';
+import { Observable, tap } from 'rxjs';
+import { DebuggerService } from '../services/debugger.service';
 
 @Injectable()
-export class DebuggerInterceptor implements NestInterceptor<Promise<any>> {
+export class DebuggerInterceptor implements NestInterceptor {
   private readonly writeIntoFile: boolean;
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly debuggerService: DebuggerService,
-  ) {
-    this.writeIntoFile =
-      this.configService.get<boolean>('debugger.writeIntoFile') ?? false; //return false if it is undefined or null
+
+  constructor(private readonly debuggerService: DebuggerService) {
+    // Assuming writeIntoFile is always true for simplification
+    // In a real scenario, you might want to fetch this from your configuration
+    this.writeIntoFile = true;
   }
-  async intercept(
-    ctx: ExecutionContext,
-    next: CallHandler,
-  ): Promise<Observable<Promise<any> | string>> {
-    if (ctx.getType() === 'http') {
-      const request: IRequestApp = ctx.switchToHttp().getRequest<IRequestApp>();
-      if (this.writeIntoFile) {
-        this.debuggerService.info({
-          type: 'request',
-          method: request.method,
-          path: request.path,
-          originalUrl: request.originalUrl,
-          params: request.params,
-          body: request.body,
-          baseUrl: request.baseUrl,
-          query: request.query,
-          ip: request.ip,
-          hostname: request.hostname,
-          protocol: request.protocol,
-        });
-      }
+
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    if (!this.writeIntoFile) {
+      return next.handle();
     }
+
+    const request = context.switchToHttp().getRequest();
+    const response: Response = context.switchToHttp().getResponse<Response>();
+    const startTime = Date.now();
+
     return next.handle().pipe(
-      tap(() => {
-        const response: Response = ctx.switchToHttp().getResponse<Response>();
-        if (this.writeIntoFile) {
+      tap({
+        next: (data) => {
+          const duration = Date.now() - startTime;
           this.debuggerService.info({
-            type: 'response',
-            statusCode: response.statusCode,
-            message: response.statusMessage,
+            request: {
+              type: 'request',
+              method: request.method,
+              path: request.path,
+              originalUrl: request.originalUrl,
+              params: request.params,
+              body: request.body,
+              hostname: request.hostname,
+              protocol: request.protocol,
+              data: data,
+            },
+            response: {
+              type: 'response',
+              statusCode: response.statusCode,
+              duration: `${duration}ms`,
+            },
           });
-        }
+        },
+        error: (error) => {
+          const duration = Date.now() - startTime;
+          this.debuggerService.error({
+            request: {
+              type: 'request',
+              method: request.method,
+              path: request.path,
+              originalUrl: request.originalUrl,
+              params: request.params,
+              body: request.body,
+              hostname: request.hostname,
+              protocol: request.protocol,
+            },
+            error: {
+              statusCode: error.error.statusCode,
+              message: error.error.message,
+            },
+            duration: `${duration}ms`,
+          });
+        },
       }),
     );
   }
