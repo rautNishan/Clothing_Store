@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import databaseConfig from './config/database.config';
-import { DatabaseService } from './services/database.service';
+import { DatabaseService } from './services/database.providers';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 @Module({

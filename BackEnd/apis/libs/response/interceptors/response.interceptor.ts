@@ -32,13 +32,13 @@ export class ResponseInterceptor<T> implements NestInterceptor<T> {
             path: _path,
           };
           const incomingResponseData = await res;
-          console.log('This is Incoming Data: ', incomingResponseData);
-
           if (incomingResponseData) {
             data = incomingResponseData;
           }
           response.status(_status);
           return {
+            language: 'en',
+            date: new Date().toISOString(),
             statusCode: _status,
             message: _messagePath,
             metaData: metaData,
