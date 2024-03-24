@@ -51,6 +51,8 @@ export class DebuggerInterceptor implements NestInterceptor {
           });
         },
         error: (error) => {
+          console.log('This is Error: ', error);
+
           const duration = Date.now() - startTime;
           this.debuggerService.error({
             request: {
@@ -64,8 +66,11 @@ export class DebuggerInterceptor implements NestInterceptor {
               protocol: request.protocol,
             },
             error: {
-              statusCode: error?.error?.statusCode,
-              message: error?.error?.message,
+              statusCode:
+                error?.error?.statusCode ??
+                error?.statusCode ??
+                error?.response?.statusCode,
+              message: error?.error?.message ?? error?.message,
             },
             duration: `${duration}ms`,
           });

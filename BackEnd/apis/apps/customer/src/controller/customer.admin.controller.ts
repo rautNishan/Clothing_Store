@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, RpcException } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
+import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerService } from '../services/customer.service';
@@ -27,7 +28,7 @@ export class CustomerAdminController {
 
       return customerData;
     } catch (error) {
-      throw new RpcException(error);
+      throw new StrictRpcException(error);
     } finally {
       await queryRunner.release();
     }

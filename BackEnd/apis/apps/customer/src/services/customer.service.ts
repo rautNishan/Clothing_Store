@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
 import {
   ICreateOptions,
   IFindManyOptions,
@@ -7,6 +6,7 @@ import {
   IPaginatedOptions,
   IUpdateOptions,
 } from 'libs/database/interface/database.interface';
+import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DeepPartial } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerRepository } from '../repositry/customer.repository';
@@ -26,7 +26,7 @@ export class CustomerService {
         },
       });
       if (existingCustomer) {
-        throw new RpcException({
+        throw new StrictRpcException({
           statusCode: HttpStatus.CONFLICT,
           message: 'User Name Exists.',
         });
@@ -39,7 +39,7 @@ export class CustomerService {
         },
       });
       if (existingEmail) {
-        throw new RpcException({
+        throw new StrictRpcException({
           statusCode: HttpStatus.CONFLICT,
           message: 'Email Exists.',
         });
@@ -52,7 +52,7 @@ export class CustomerService {
         },
       });
       if (existingContact?.contact) {
-        throw new RpcException({
+        throw new StrictRpcException({
           statusCode: HttpStatus.CONFLICT,
           message: 'Contact Exists.',
         });

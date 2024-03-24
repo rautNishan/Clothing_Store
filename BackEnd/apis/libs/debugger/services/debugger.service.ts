@@ -1,8 +1,9 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { IDebuggerService } from '../interfaces/debugger.service.interface';
 
+@Injectable()
 export class DebuggerService implements IDebuggerService {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger, //Import from winston

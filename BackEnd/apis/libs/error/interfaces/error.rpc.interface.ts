@@ -1,4 +1,4 @@
 export interface IRpcException {
-  statusCode: number | string;
+  statusCode: number;
   message: string;
 }

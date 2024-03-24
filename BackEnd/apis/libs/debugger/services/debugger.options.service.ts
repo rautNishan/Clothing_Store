@@ -4,14 +4,18 @@ import { LoggerOptions } from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 import * as Transport from 'winston-transport';
 import { IDebuggerOptionService } from '../interfaces/debugger.options.interface';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class DebuggerOptionService implements IDebuggerOptionService {
   constructor(private readonly configService: ConfigService) {}
   createLogger(): LoggerOptions {
-    const writeIntoFile = true;
+    const writeIntoFile = this.configService.get<string>(
+      'debugger.writeIntoFile',
+    );
 
-    const maxFiles = '7d';
-    const maxSize = '2m';
+    const maxFiles = this.configService.get<string>('debugger.maxFiles');
+    const maxSize = this.configService.get<string>('debugger.maxSize');
 
     const transports: Transport[] | Transport = [];
 

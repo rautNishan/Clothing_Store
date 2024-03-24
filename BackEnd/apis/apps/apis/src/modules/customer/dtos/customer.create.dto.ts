@@ -63,7 +63,6 @@ export class CustomerCreateDto {
   })
   @IsString()
   @IsNotEmpty()
-  @IsEmail()
   @MinLength(1)
   contact: string;
 
