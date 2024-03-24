@@ -1,11 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
+import { IFindManyOptions } from 'libs/database/interface/database.interface';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerService } from '../services/customer.service';
-import { IFindManyOptions } from 'libs/database/interface/database.interface';
 
 @Controller('customer')
 export class CustomerAdminController {
@@ -26,7 +26,6 @@ export class CustomerAdminController {
         entityManger: entityManager,
       });
       await queryRunner.commitTransaction();
-
       return data;
     } catch (error) {
       throw new StrictRpcException(error);

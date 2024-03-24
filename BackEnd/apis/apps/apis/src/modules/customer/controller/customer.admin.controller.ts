@@ -6,6 +6,7 @@ import { ResponseMessage } from 'libs/response/decorators/response.message.decor
 import { firstValueFrom } from 'rxjs';
 import { CustomerAdminDocs } from '../docs/customer.admin.doc';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
+
 @ApiTags('Customer')
 @Controller({
   path: 'customer',
@@ -23,7 +24,6 @@ export class CustomerAdminController {
         customerData,
       ),
     );
-    console.log('This is Data: ', data);
 
     return data;
   }
