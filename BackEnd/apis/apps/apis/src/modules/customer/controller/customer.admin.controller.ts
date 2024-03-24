@@ -2,6 +2,7 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
+import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerAdminDocs } from '../docs/customer.admin.doc';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
@@ -13,15 +14,17 @@ import { CustomerCreateDto } from '../dtos/customer.create.dto';
 export class CustomerAdminController {
   constructor(@Inject('CUSTOMER') private readonly client: ClientProxy) {}
   @CustomerAdminDocs()
+  @ResponseMessage('Customer Created.')
   @Post('/create')
-  async create(@Body() data: CustomerCreateDto) {
-    const result = await firstValueFrom(
+  async create(@Body() customerData: CustomerCreateDto) {
+    const data = await firstValueFrom(
       this.client.send(
         { cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
-        data,
+        customerData,
       ),
     );
-    console.log('This is Result', result);
-    return result;
+    console.log('This is Data: ', data);
+
+    return data;
   }
 }

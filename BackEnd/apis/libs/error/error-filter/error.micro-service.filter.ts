@@ -11,7 +11,6 @@ export class MicroServiceExceptionFilter
   catch(exception: RpcException): Observable<any> {
     const micro_service_Response = exception.getError();
     const error = (micro_service_Response as { error }).error;
-
     return throwError(() => msErrorConverter(error));
   }
 }

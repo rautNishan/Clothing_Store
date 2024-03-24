@@ -8,6 +8,7 @@ import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
 import { CustomerAdminController } from '../../modules/customer/controller/customer.admin.controller';
 import { ExceptionFilterModule } from 'libs/error/error.http.module';
+import { ResponseModule } from 'libs/response/response.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ExceptionFilterModule } from 'libs/error/error.http.module';
     DebuggerLoggerModule,
     DebuggerModule,
     ExceptionFilterModule,
+    ResponseModule,
   ],
   controllers: [CustomerAdminController],
 })
