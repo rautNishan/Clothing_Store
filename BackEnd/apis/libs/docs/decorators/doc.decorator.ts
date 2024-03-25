@@ -1,16 +1,56 @@
-import { applyDecorators } from '@nestjs/common';
+import { HttpStatus, applyDecorators } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConsumes,
+  ApiExtraModels,
   ApiHeaders,
   ApiOperation,
   ApiParam,
   ApiQuery,
+  ApiResponse,
+  getSchemaPath,
 } from '@nestjs/swagger';
+import { ResponseSerialization } from 'libs/response/serialization/reponse.serialization';
 import {
   IDocAuthOptions,
+  IDocDefaultOptions,
   IDocOptions,
   IDocRequestOptions,
 } from '../interfaces/doc.interfaces';
+import { ENUM_DOC_REQUEST_BODY_TYPE } from '../constants/doc.enum.constant';
+
+export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
+  const docs: any[] = [];
+  const schema: Record<string, any> = {
+    allOf: [{ $ref: getSchemaPath(ResponseSerialization<T>) }],
+    properties: {
+      message: {
+        example: options.messagePath,
+      },
+      statusCode: {
+        type: 'number',
+        example: options.statusCode,
+      },
+    },
+  };
+  if (options?.serialization) {
+    docs.push(ApiExtraModels(options.serialization));
+    schema.properties = {
+      ...schema.properties,
+      data: {
+        $ref: getSchemaPath(options.serialization),
+      },
+    };
+  }
+  return applyDecorators(
+    ApiExtraModels(ResponseSerialization<T>),
+    ApiResponse({
+      status: options.httpStatus,
+      schema,
+    }),
+    ...docs,
+  );
+}
 
 export function Doc(options?: IDocOptions): MethodDecorator {
   const currentTimestamp: number = new Date().valueOf();
@@ -53,11 +93,36 @@ export function Doc(options?: IDocOptions): MethodDecorator {
         },
       },
     ]),
+
+    DocDefault({
+      httpStatus: HttpStatus.SERVICE_UNAVAILABLE,
+      messagePath: 'http.serverError.serviceUnavailable',
+      statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+    }),
+    DocDefault({
+      httpStatus: HttpStatus.INTERNAL_SERVER_ERROR,
+      messagePath: 'http.internalError.internalServerError',
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+    }),
+    DocDefault({
+      httpStatus: HttpStatus.REQUEST_TIMEOUT,
+      messagePath: 'http.requestError.requestTimeOut',
+      statusCode: HttpStatus.REQUEST_TIMEOUT,
+    }),
   );
 }
 
 export function DocRequest(options?: IDocRequestOptions) {
   const docs: Array<ClassDecorator | MethodDecorator> = [];
+
+  if (options?.bodyType === ENUM_DOC_REQUEST_BODY_TYPE.FORM_DATA) {
+    docs.push(ApiConsumes('multipart/form-data'));
+  } else if (options?.bodyType === ENUM_DOC_REQUEST_BODY_TYPE.TEXT) {
+    docs.push(ApiConsumes('text/plain'));
+  } else if (options?.bodyType === ENUM_DOC_REQUEST_BODY_TYPE.JSON) {
+    docs.push(ApiConsumes('application/json'));
+  }
+
   if (options?.params) {
     const params: MethodDecorator[] = options.params.map((param) => {
       return ApiParam(param);
