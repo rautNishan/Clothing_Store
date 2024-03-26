@@ -6,6 +6,7 @@ import { ResponseMessage } from 'libs/response/decorators/response.message.decor
 import { firstValueFrom } from 'rxjs';
 import { CustomerAdminDocs } from '../docs/customer.admin.doc';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
+import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 
 @ApiTags('Customer')
 @Controller({
@@ -15,6 +16,7 @@ import { CustomerCreateDto } from '../dtos/customer.create.dto';
 export class CustomerAdminController {
   constructor(@Inject('CUSTOMER') private readonly client: ClientProxy) {}
   @CustomerAdminDocs()
+  @ResponseDataDecorator()
   @ResponseMessage('Customer Created.')
   @Post('/create')
   async create(@Body() customerData: CustomerCreateDto) {
@@ -24,7 +26,6 @@ export class CustomerAdminController {
         customerData,
       ),
     );
-
     return data;
   }
 }

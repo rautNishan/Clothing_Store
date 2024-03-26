@@ -1,5 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { ApiParamOptions, ApiQueryOptions } from '@nestjs/swagger';
+import { ClassConstructor } from 'class-transformer';
+import { ENUM_DOC_REQUEST_BODY_TYPE } from '../constants/doc.enum.constant';
 
 export interface IDocOptions {
   summary?: string;
@@ -11,6 +13,7 @@ export interface IDocOptions {
 export interface IDocOfOptions {
   statusCode: number;
   messagePath: string;
+  serialization?: ClassConstructor<any>;
 }
 
 export interface IDocDefaultOptions extends IDocOfOptions {
@@ -27,4 +30,5 @@ export interface IDocAuthOptions {
 export interface IDocRequestOptions {
   params?: ApiParamOptions[];
   queries?: ApiQueryOptions[];
+  bodyType?: ENUM_DOC_REQUEST_BODY_TYPE;
 }

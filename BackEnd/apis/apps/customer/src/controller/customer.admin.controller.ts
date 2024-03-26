@@ -28,6 +28,7 @@ export class CustomerAdminController {
       await queryRunner.commitTransaction();
       return data;
     } catch (error) {
+      queryRunner.rollbackTransaction();
       throw new StrictRpcException(error);
     } finally {
       await queryRunner.release();

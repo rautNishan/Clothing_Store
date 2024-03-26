@@ -7,6 +7,7 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  MaxLength,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -63,7 +64,8 @@ export class CustomerCreateDto {
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(1)
+  @MinLength(10)
+  @MaxLength(10)
   contact: string;
 
   @ApiProperty({
