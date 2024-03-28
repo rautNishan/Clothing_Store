@@ -10,7 +10,7 @@ export class ResponseMetadataSerialization {
   [key: string]: any;
 }
 
-export class ResponseSerialization<T = Record<string, any>> {
+export class ResponseSerialization {
   @ApiProperty({
     name: 'statusCode',
     type: Number,
@@ -58,6 +58,4 @@ export class ResponseSerialization<T = Record<string, any>> {
     },
   })
   _metaData?: ResponseMetadataSerialization; //todo
-
-  data?: T;
 }

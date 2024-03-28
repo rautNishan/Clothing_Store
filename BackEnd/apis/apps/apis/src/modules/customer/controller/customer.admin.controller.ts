@@ -1,4 +1,11 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
@@ -7,6 +14,7 @@ import { ResponseDataDecorator } from 'libs/response/decorators/response.data.de
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
+import { FinalCustomerSerialization } from '../serializations/customer.serialization';
 
 @ApiTags('Customer')
 @Controller({
@@ -18,6 +26,9 @@ export class CustomerAdminController {
   @ApiDoc({
     summary: 'Admin Create a new customer',
     jwtAccessToken: false,
+    defaultStatusCode: HttpStatus.CREATED,
+    serialization: FinalCustomerSerialization,
+    messagePath: 'Successfully Created',
   })
   @ResponseDataDecorator()
   @ResponseMessage('Customer Created.')
@@ -27,6 +38,26 @@ export class CustomerAdminController {
       this.client.send(
         { cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
         customerData,
+      ),
+    );
+    return data;
+  }
+
+  @ApiDoc({
+    summary: 'Get Customer List',
+    jwtAccessToken: false,
+    // defaultStatusCode: HttpStatus.CREATED,
+    // serialization: FinalCustomerSerialization,
+    // messagePath: 'Successfully Created',
+  })
+  @Get('/list')
+  async list() {
+    const data = await firstValueFrom(
+      this.client.send(
+        {
+          cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
+        },
+        {},
       ),
     );
     return data;

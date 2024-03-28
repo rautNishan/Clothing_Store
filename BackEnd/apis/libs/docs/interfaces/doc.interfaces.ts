@@ -13,6 +13,7 @@ export interface IAppDocOptions {
   deprecated?: boolean;
   description?: string;
   statusCode?: number;
+  defaultStatusCode?: number;
   messagePath?: string;
   serialization?: ClassConstructor<any>;
   httpStatus?: HttpStatus;

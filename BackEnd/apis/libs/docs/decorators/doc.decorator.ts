@@ -15,10 +15,10 @@ import { ResponseSerialization } from 'libs/response/serialization/reponse.seria
 import { ENUM_DOC_REQUEST_BODY_TYPE } from '../constants/doc.enum.constant';
 import { IAppDocOptions } from '../interfaces/doc.interfaces';
 
-export function DocDefault<T>(options: IAppDocOptions): MethodDecorator {
+export function DocDefault(options: IAppDocOptions): MethodDecorator {
   const docs: MethodDecorator[] = [];
   const schema: Record<string, any> = {
-    allOf: [{ $ref: getSchemaPath(ResponseSerialization<T>) }],
+    allOf: [{ $ref: getSchemaPath(ResponseSerialization) }],
     properties: {
       message: {
         example: options.messagePath,
@@ -39,7 +39,7 @@ export function DocDefault<T>(options: IAppDocOptions): MethodDecorator {
   //   };
   // }
   return applyDecorators(
-    ApiExtraModels(ResponseSerialization<T>),
+    ApiExtraModels(ResponseSerialization),
     ApiResponse({
       status: options.httpStatus,
       schema,
@@ -48,8 +48,43 @@ export function DocDefault<T>(options: IAppDocOptions): MethodDecorator {
   );
 }
 
-export function ApiDoc(options?: IAppDocOptions): MethodDecorator {
+export function ApiDoc(options: IAppDocOptions): MethodDecorator {
   const docs: Array<ClassDecorator | MethodDecorator> = [];
+
+  if (options.serialization && options.defaultStatusCode) {
+    docs.push(ApiExtraModels(options.serialization));
+    const schema: Record<string, any> = {
+      allOf: [
+        {
+          $ref: getSchemaPath(options.serialization),
+        },
+      ],
+      properties: {
+        message: {
+          example: options.messagePath,
+        },
+        statusCode: {
+          type: 'number',
+          example: options.defaultStatusCode,
+        },
+      },
+    };
+
+    schema.properties = {
+      ...schema.properties,
+      data: {
+        // type: options.serialization,
+      },
+    };
+    console.log('This is Schema: ', schema);
+
+    docs.push(
+      ApiResponse({
+        status: options.defaultStatusCode,
+        schema,
+      }),
+    );
+  }
 
   //First Doc
   docs.push(
@@ -116,6 +151,5 @@ export function ApiDoc(options?: IAppDocOptions): MethodDecorator {
   if (options?.google) {
     docs.push(ApiBearerAuth());
   }
-
-  return applyDecorators(ApiExtraModels(ResponseSerialization), ...docs);
+  return applyDecorators(...docs);
 }
