@@ -2,11 +2,11 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
+import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
+import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
-import { CustomerAdminDocs } from '../docs/customer.admin.doc';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
-import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 
 @ApiTags('Customer')
 @Controller({
@@ -15,7 +15,10 @@ import { ResponseDataDecorator } from 'libs/response/decorators/response.data.de
 })
 export class CustomerAdminController {
   constructor(@Inject('CUSTOMER') private readonly client: ClientProxy) {}
-  @CustomerAdminDocs()
+  @ApiDoc({
+    summary: 'Admin Create a new customer',
+    jwtAccessToken: false,
+  })
   @ResponseDataDecorator()
   @ResponseMessage('Customer Created.')
   @Post('/create')
