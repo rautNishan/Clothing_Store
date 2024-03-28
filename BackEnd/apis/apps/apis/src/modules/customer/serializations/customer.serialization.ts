@@ -1,8 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseSerialization } from 'libs/response/serialization/reponse.serialization';
+import {
+  ResponsePaginationSerialization,
+  ResponseSerialization,
+} from 'libs/response/serialization/reponse.serialization';
 
-export class IData {
-  id: number;
+export class CustomerFullName {
+  @ApiProperty({
+    type: String,
+  })
+  firstName: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  middleName?: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  lastName: string;
 }
 export class CustomerSerializedData {
   @ApiProperty({
@@ -18,6 +34,21 @@ export class FinalCustomerSerialization extends ResponseSerialization {
   data: CustomerSerializedData;
 }
 
-export class CustomerPaginationSerializedData {}
+export class CustomerPaginationSerializedData {
+  @ApiProperty({
+    type: Number,
+  })
+  id: number;
 
-export class FinalCustomerPaginationSerialization extends ResponseSerialization {}
+  @ApiProperty({
+    type: CustomerFullName,
+  })
+  customerName: CustomerFullName;
+}
+
+export class FinalCustomerPaginationSerialization extends ResponsePaginationSerialization {
+  @ApiProperty({
+    type: [CustomerPaginationSerializedData],
+  })
+  data: CustomerPaginationSerializedData;
+}

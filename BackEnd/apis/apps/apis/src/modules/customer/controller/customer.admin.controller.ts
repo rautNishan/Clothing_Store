@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Inject,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,7 +15,11 @@ import { ResponseDataDecorator } from 'libs/response/decorators/response.data.de
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
-import { FinalCustomerSerialization } from '../serializations/customer.serialization';
+import {
+  FinalCustomerPaginationSerialization,
+  FinalCustomerSerialization,
+} from '../serializations/customer.serialization';
+import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
 
 @ApiTags('Customer')
 @Controller({
@@ -46,18 +51,18 @@ export class CustomerAdminController {
   @ApiDoc({
     summary: 'Get Customer List',
     jwtAccessToken: false,
-    // defaultStatusCode: HttpStatus.CREATED,
-    // serialization: FinalCustomerSerialization,
-    // messagePath: 'Successfully Created',
+    defaultStatusCode: HttpStatus.OK,
+    serialization: FinalCustomerPaginationSerialization,
+    messagePath: 'Successfully Listed Customer List',
   })
   @Get('/list')
-  async list() {
+  async list(@Query() paginationQuery: PaginationQueryDto) {
     const data = await firstValueFrom(
       this.client.send(
         {
           cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
         },
-        {},
+        paginationQuery,
       ),
     );
     return data;

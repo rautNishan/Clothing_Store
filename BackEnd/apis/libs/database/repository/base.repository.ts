@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  DeepPartial,
-  FindOneOptions,
-  FindOptionsWhere,
-  ILike,
-  Repository,
-} from 'typeorm';
+import { DeepPartial, FindOneOptions, ILike, Repository } from 'typeorm';
 import { DbBaseEntity } from '../entity/base.entity';
 import {
   ICreateOptions,
@@ -61,56 +55,79 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
   async findAllWithPagination(
     options?: IPaginatedOptions<T>,
   ): Promise<IPaginationResponse<T>> {
-    const page: number = options?.page && options.page > 0 ? options.page : 1; //Make it 1 by Default
-    const limit: number =
-      options?.limit && options.limit > 0 ? options.limit : 10;
-    const skip: number = (page - 1) * limit;
-    const findAllWithPaginationOptions = {
-      ...options?.findManyOptions,
-      take: limit, // TypeORM uses `take` for limit
-      skip: skip,
-    };
+    try {
+      const page: number = options?.page && options.page > 0 ? options.page : 1; //Make it 1 by Default
+      const limit: number =
+        options?.limit && options.limit > 0 ? options.limit : 10;
+      const skip: number = (page - 1) * limit;
+      const findAllWithPaginationOptions = {
+        ...options?.findManyOptions,
+        take: limit, // TypeORM uses `take` for limit
+        skip: skip,
+      };
 
-    //For search
-    if (
-      options?.searchBy &&
-      options?.searchFields &&
-      options?.searchFields.length > 0
-    ) {
-      const searchCondition: any = options.searchFields.map(
-        //todo Strict Type implementation
-        (field) =>
-          ({
-            [field]: ILike(`%${options.searchBy}%`),
-          }) as FindOptionsWhere<T>,
+      //For search
+      if (
+        options?.searchBy &&
+        options?.searchableFields &&
+        options?.search &&
+        options?.searchableFields.length > 0
+      ) {
+        const columns: string[] = options.searchBy.split(',');
+
+        const searchCondition: any = columns
+          ?.filter((s) => options.searchableFields?.includes(s))
+          .map((s) => ({ [s]: ILike(`%${options.search}`) }));
+
+        for (let i = 0; i < searchCondition.length; i++) {
+          console.log('This is SearchCondition: ', searchCondition[i]);
+        }
+
+        findAllWithPaginationOptions.where =
+          searchCondition.length > 1
+            ? { $or: searchCondition }
+            : searchCondition[0];
+      }
+      console.log('Search Completed');
+
+      if (options?.relations && options.relations) {
+        findAllWithPaginationOptions.relations = options.relations;
+      }
+      // if (options?.withDeleted && options.withDeleted) {
+      //   findAllWithPaginationOptions.withDeleted = true;
+      // }
+      findAllWithPaginationOptions.withDeleted = options?.withDeleted;
+
+      console.log('Relation adn WithDeleted Completed');
+
+      //For Sorting
+      if (options?.sortableFields) {
+        const order: any = {}; //todo strick type implementation
+        options.sortableFields.forEach((field) => {
+          order[field] = options.sortOrder || 'ASC'; // This line might need adjustment
+        });
+        findAllWithPaginationOptions.order = order;
+      }
+      console.log('Sort Completed');
+      console.log(
+        'Find With Pagination Options: ',
+        findAllWithPaginationOptions,
       );
-      findAllWithPaginationOptions.where =
-        searchCondition.length > 1
-          ? { $or: searchCondition }
-          : searchCondition[0];
-    }
-    if (options?.relations && options.relations) {
-      findAllWithPaginationOptions.relations = options.relations;
-    }
-    if (options?.withDeleted && options.withDeleted) {
-      findAllWithPaginationOptions.withDeleted = true;
-    }
 
-    //For Sorting
-    if (options?.sortableFields) {
-      const order: any = {}; //todo strick type implementation
-      options.sortableFields.forEach((field) => {
-        order[field] = options.sortOrder || 'ASC'; // This line might need adjustment
-      });
-      findAllWithPaginationOptions.order = order;
+      const [data, count] = await this.repository.findAndCount(
+        findAllWithPaginationOptions,
+      );
+      console.log('Data and count completed');
+
+      console.log('Total Page');
+      const totalPages: number = Math.ceil(count / limit);
+      console.log('Returning Data');
+
+      return { data, limit, skip, count, page, totalPages };
+    } catch (error) {
+      console.log('This is Error: ', error);
+      throw error;
     }
-
-    const [data, count] = await this.repository.findAndCount(
-      findAllWithPaginationOptions,
-    );
-    const totalPages: number = Math.ceil(count / limit);
-
-    return { data, limit, skip, count, page, totalPages };
   }
 
   async findOne(options?: IFindOneOptions<T>): Promise<T | null> {

@@ -7,6 +7,11 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Request, Response, response } from 'express';
 import { Observable, map } from 'rxjs';
+import {
+  IPaginationMeta,
+  IResponse,
+  IResponsePaging,
+} from '../interfaces/response.interface';
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T> {
   constructor(private readonly reflector: Reflector) {}
@@ -27,12 +32,15 @@ export class ResponseInterceptor<T> implements NestInterceptor<T> {
             'responseMessage',
             context.getHandler(),
           );
-          let data: undefined;
+          let data: any;
+          let _pagination: IPaginationMeta | undefined;
           const metaData = {
             path: _path,
           };
-          const incomingResponseData = await res;
+          const incomingResponseData: IResponse | IResponsePaging = await res;
           if (incomingResponseData) {
+            _pagination = (incomingResponseData as IResponsePaging)
+              ?._pagination;
             data = incomingResponseData;
           }
           response.status(_status);
@@ -43,6 +51,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T> {
             message: _messagePath,
             metaData: metaData,
             data,
+            _pagination,
           };
         }),
       );
