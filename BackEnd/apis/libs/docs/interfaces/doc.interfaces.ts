@@ -14,7 +14,7 @@ export interface IAppDocOptions {
   description?: string;
   statusCode?: number;
   defaultStatusCode?: number;
-  messagePath?: string;
+  defaultMessagePath?: string;
   serialization?: ClassConstructor<any>;
   httpStatus?: HttpStatus;
   jwtAccessToken?: boolean;

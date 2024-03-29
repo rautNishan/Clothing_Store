@@ -33,7 +33,7 @@ export class CustomerAdminController {
     jwtAccessToken: false,
     defaultStatusCode: HttpStatus.CREATED,
     serialization: FinalCustomerSerialization,
-    messagePath: 'Successfully Created',
+    defaultMessagePath: 'Successfully Created',
   })
   @ResponseDataDecorator()
   @ResponseMessage('Customer Created.')
@@ -53,8 +53,9 @@ export class CustomerAdminController {
     jwtAccessToken: false,
     defaultStatusCode: HttpStatus.OK,
     serialization: FinalCustomerPaginationSerialization,
-    messagePath: 'Successfully Listed Customer List',
+    defaultMessagePath: 'Successfully Listed Customer List',
   })
+  @ResponseMessage('Customer Lists.')
   @Get('/list')
   async list(@Query() paginationQuery: PaginationQueryDto) {
     const data = await firstValueFrom(

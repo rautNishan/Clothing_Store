@@ -21,7 +21,7 @@ export function DocDefault(options: IAppDocOptions): MethodDecorator {
     allOf: [{ $ref: getSchemaPath(ResponseSerialization) }],
     properties: {
       message: {
-        example: options.messagePath,
+        example: options.defaultMessagePath,
       },
       statusCode: {
         type: 'number',
@@ -51,6 +51,7 @@ export function DocDefault(options: IAppDocOptions): MethodDecorator {
 export function ApiDoc(options: IAppDocOptions): MethodDecorator {
   const docs: Array<ClassDecorator | MethodDecorator> = [];
 
+  //Default Success Doc
   if (options.serialization && options.defaultStatusCode) {
     docs.push(ApiExtraModels(options.serialization));
     const schema: Record<string, any> = {
@@ -61,7 +62,7 @@ export function ApiDoc(options: IAppDocOptions): MethodDecorator {
       ],
       properties: {
         message: {
-          example: options.messagePath,
+          example: options.defaultMessagePath,
         },
         statusCode: {
           type: 'number',
@@ -70,13 +71,10 @@ export function ApiDoc(options: IAppDocOptions): MethodDecorator {
       },
     };
 
-    schema.properties = {
-      ...schema.properties,
-      data: {
-        // type: options.serialization,
-      },
-    };
-    console.log('This is Schema: ', schema);
+    // schema.properties = {
+    //   ...schema.properties,
+    //   data: {},
+    // };
 
     docs.push(
       ApiResponse({
@@ -99,12 +97,12 @@ export function ApiDoc(options: IAppDocOptions): MethodDecorator {
     DocDefault({
       httpStatus: HttpStatus.INTERNAL_SERVER_ERROR,
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      messagePath: 'Internal Server Error',
+      defaultMessagePath: 'Internal Server Error',
     }),
     DocDefault({
       httpStatus: HttpStatus.REQUEST_TIMEOUT,
       statusCode: HttpStatus.REQUEST_TIMEOUT,
-      messagePath: 'Request Time Out',
+      defaultMessagePath: 'Request Time Out',
     }),
   );
 
