@@ -1,17 +1,15 @@
-import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { AdminModule } from './admin.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { CustomerModule } from './customer.module';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    CustomerModule,
+    AdminModule,
     {
       transport: Transport.TCP,
       options: {
-        port: parseInt(
-          process.env.MICRO_SERVICE_CUSTOMER_SERVICE_PORT || '5002',
-        ),
+        port: parseInt(process.env.MICRO_SERVICE_ADMIN_SERVICE_PORT || '5000'),
       },
     },
   );
