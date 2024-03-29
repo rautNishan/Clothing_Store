@@ -42,9 +42,10 @@ export interface IPaginatedOptions<T> {
   page?: number;
   limit?: number;
   searchBy?: string;
+  search?: string;
   sortOrder?: 'ASC' | 'DESC';
   sortBy: string;
-  searchFields?: (keyof T)[];
+  searchableFields?: string[];
   sortableFields?: (keyof T)[];
   entityManger?: EntityManager;
   findManyOptions?: FindManyOptions<T>;

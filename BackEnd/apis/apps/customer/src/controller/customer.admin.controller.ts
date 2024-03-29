@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
-import { IFindManyOptions } from 'libs/database/interface/database.interface';
+import { IPaginatedOptions } from 'libs/database/interface/database.interface';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
@@ -36,9 +36,13 @@ export class CustomerAdminController {
   }
 
   @MessagePattern({ cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS })
-  async list(options?: IFindManyOptions<CustomerEntity>) {
+  async list(options?: IPaginatedOptions<CustomerEntity>) {
     try {
-      return await this.customerService.findAll(options);
+      const { ...paginationOptions } = options;
+      paginationOptions.searchableFields = ['userName', 'email'];
+      const data =
+        await this.customerService.findAllWithPagination(paginationOptions);
+      return data;
     } catch (error) {
       throw new StrictRpcException(error);
     }

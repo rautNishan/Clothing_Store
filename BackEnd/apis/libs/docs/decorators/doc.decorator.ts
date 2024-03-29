@@ -3,6 +3,7 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiExtraModels,
+  ApiHeader,
   ApiHeaders,
   ApiOperation,
   ApiParam,
@@ -11,21 +12,16 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { ResponseSerialization } from 'libs/response/serialization/reponse.serialization';
-import {
-  IDocAuthOptions,
-  IDocDefaultOptions,
-  IDocOptions,
-  IDocRequestOptions,
-} from '../interfaces/doc.interfaces';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from '../constants/doc.enum.constant';
+import { IAppDocOptions } from '../interfaces/doc.interfaces';
 
-export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
-  const docs: any[] = [];
+export function DocDefault(options: IAppDocOptions): MethodDecorator {
+  const docs: MethodDecorator[] = [];
   const schema: Record<string, any> = {
-    allOf: [{ $ref: getSchemaPath(ResponseSerialization<T>) }],
+    allOf: [{ $ref: getSchemaPath(ResponseSerialization) }],
     properties: {
       message: {
-        example: options.messagePath,
+        example: options.defaultMessagePath,
       },
       statusCode: {
         type: 'number',
@@ -33,17 +29,17 @@ export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
       },
     },
   };
-  if (options?.serialization) {
-    docs.push(ApiExtraModels(options.serialization));
-    schema.properties = {
-      ...schema.properties,
-      data: {
-        $ref: getSchemaPath(options.serialization),
-      },
-    };
-  }
+  // if (options?.serialization) {
+  //   docs.push(ApiExtraModels(options.serialization));
+  //   schema.properties = {
+  //     ...schema.properties,
+  //     data: {
+  //       $ref: getSchemaPath(options.serialization),
+  //     },
+  //   };
+  // }
   return applyDecorators(
-    ApiExtraModels(ResponseSerialization<T>),
+    ApiExtraModels(ResponseSerialization),
     ApiResponse({
       status: options.httpStatus,
       schema,
@@ -52,69 +48,65 @@ export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
   );
 }
 
-export function Doc(options?: IDocOptions): MethodDecorator {
-  const currentTimestamp: number = new Date().valueOf();
-  return applyDecorators(
+export function ApiDoc(options: IAppDocOptions): MethodDecorator {
+  const docs: Array<ClassDecorator | MethodDecorator> = [];
+
+  //Default Success Doc
+  if (options.serialization && options.defaultStatusCode) {
+    docs.push(ApiExtraModels(options.serialization));
+    const schema: Record<string, any> = {
+      allOf: [
+        {
+          $ref: getSchemaPath(options.serialization),
+        },
+      ],
+      properties: {
+        message: {
+          example: options.defaultMessagePath,
+        },
+        statusCode: {
+          type: 'number',
+          example: options.defaultStatusCode,
+        },
+      },
+    };
+
+    // schema.properties = {
+    //   ...schema.properties,
+    //   data: {},
+    // };
+
+    docs.push(
+      ApiResponse({
+        status: options.defaultStatusCode,
+        schema,
+      }),
+    );
+  }
+
+  //First Doc
+  docs.push(
     ApiOperation({
       summary: options?.summary,
       description: options?.description,
       deprecated: options?.deprecated,
       operationId: options?.operation,
     }),
-    ApiHeaders([
-      {
-        name: 'HRF',
-        description: 'Hostel, Room, Flat Finder',
-        required: false,
-        schema: {
-          default: 'HRF',
-          example: 'HRF',
-          type: 'string',
-        },
-      },
-      {
-        name: 'x-custom-lang',
-        description: 'Custom language header',
-        required: false,
-        schema: {
-          default: 'en',
-          example: 'en',
-          type: 'string',
-        },
-      },
-      {
-        name: 'x-timestamp',
-        description: 'Timestamp header, in microseconds',
-        required: false,
-        schema: {
-          default: currentTimestamp,
-          example: currentTimestamp,
-          type: 'number',
-        },
-      },
-    ]),
 
-    DocDefault({
-      httpStatus: HttpStatus.SERVICE_UNAVAILABLE,
-      messagePath: 'http.serverError.serviceUnavailable',
-      statusCode: HttpStatus.SERVICE_UNAVAILABLE,
-    }),
+    ApiHeaders([]),
     DocDefault({
       httpStatus: HttpStatus.INTERNAL_SERVER_ERROR,
-      messagePath: 'http.internalError.internalServerError',
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      defaultMessagePath: 'Internal Server Error',
     }),
     DocDefault({
       httpStatus: HttpStatus.REQUEST_TIMEOUT,
-      messagePath: 'http.requestError.requestTimeOut',
       statusCode: HttpStatus.REQUEST_TIMEOUT,
+      defaultMessagePath: 'Request Time Out',
     }),
   );
-}
 
-export function DocRequest(options?: IDocRequestOptions) {
-  const docs: Array<ClassDecorator | MethodDecorator> = [];
-
+  //RequestBody Type Doc
   if (options?.bodyType === ENUM_DOC_REQUEST_BODY_TYPE.FORM_DATA) {
     docs.push(ApiConsumes('multipart/form-data'));
   } else if (options?.bodyType === ENUM_DOC_REQUEST_BODY_TYPE.TEXT) {
@@ -123,6 +115,7 @@ export function DocRequest(options?: IDocRequestOptions) {
     docs.push(ApiConsumes('application/json'));
   }
 
+  //Params Doc
   if (options?.params) {
     const params: MethodDecorator[] = options.params.map((param) => {
       return ApiParam(param);
@@ -135,11 +128,15 @@ export function DocRequest(options?: IDocRequestOptions) {
     );
     docs.push(...queries);
   }
-  return applyDecorators(...docs);
-}
 
-export function DocAuth(options?: IDocAuthOptions) {
-  const docs: Array<ClassDecorator | MethodDecorator> = [];
+  if (options?.headers) {
+    const headers: MethodDecorator[] = options?.headers?.map((header) =>
+      ApiHeader(header),
+    );
+    docs.push(...headers);
+  }
+
+  //Auth Doc
   if (options?.jwtAccessToken) {
     docs.push(ApiBearerAuth());
   }

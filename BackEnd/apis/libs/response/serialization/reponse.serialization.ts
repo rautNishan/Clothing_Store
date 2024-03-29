@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IPaginationMeta } from '../interfaces/response.interface';
 
 export class ResponseMetadataSerialization {
   languages: string[];
@@ -10,7 +11,7 @@ export class ResponseMetadataSerialization {
   [key: string]: any;
 }
 
-export class ResponseSerialization<T = Record<string, any>> {
+export class ResponseSerialization {
   @ApiProperty({
     name: 'statusCode',
     type: Number,
@@ -58,6 +59,21 @@ export class ResponseSerialization<T = Record<string, any>> {
     },
   })
   _metaData?: ResponseMetadataSerialization; //todo
+}
 
-  data?: T;
+export class ResponsePaginationSerialization extends ResponseSerialization {
+  @ApiProperty({
+    name: '_pagination',
+    required: true,
+    nullable: false,
+    description: 'Pagination Meta',
+    type: 'object',
+    example: {
+      totalPage: 1,
+      total: 20,
+      limit: 10,
+      page: 1,
+    },
+  })
+  _pagination: IPaginationMeta;
 }
