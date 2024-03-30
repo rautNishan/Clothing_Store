@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { CUSTOMER_ADMIN_TCP } from 'libs/constant/tcp/Customer/customer.admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
@@ -20,6 +19,8 @@ import {
   FinalCustomerSerialization,
 } from '../serializations/customer.serialization';
 import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
+import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
+import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
 
 @ApiTags('Customer')
 @Controller({
@@ -27,7 +28,7 @@ import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
   version: '1',
 })
 export class CustomerAdminController {
-  constructor(@Inject('CUSTOMER') private readonly client: ClientProxy) {}
+  constructor(@Inject(Customer.name) private readonly client: ClientProxy) {}
   @ApiDoc({
     summary: 'Admin Create a new customer',
     jwtAccessToken: false,
@@ -41,7 +42,7 @@ export class CustomerAdminController {
   async create(@Body() customerData: CustomerCreateDto) {
     const data = await firstValueFrom(
       this.client.send(
-        { cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
+        { cmd: ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
         customerData,
       ),
     );
@@ -61,7 +62,7 @@ export class CustomerAdminController {
     const data = await firstValueFrom(
       this.client.send(
         {
-          cmd: CUSTOMER_ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
+          cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
         },
         paginationQuery,
       ),

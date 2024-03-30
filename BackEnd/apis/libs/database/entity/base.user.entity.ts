@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { Column } from 'typeorm';
 import { DbBaseEntity } from './base.entity';
+import { ROLES } from '../constants/base.roles.enum';
 
 export class BaseUserEntity extends DbBaseEntity {
   @Exclude()
@@ -19,4 +20,12 @@ export class BaseUserEntity extends DbBaseEntity {
     nullable: false,
   })
   password: string;
+
+  @Column({
+    type: 'text',
+    name: 'role',
+    nullable: true,
+    default: ROLES.CUSTOMER,
+  })
+  role: ROLES;
 }

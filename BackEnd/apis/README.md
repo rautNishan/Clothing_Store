@@ -64,6 +64,8 @@ $ pnpm run test:cov
 ## .env
 
 ```bash
+#admin
+$ ADMIN_PASSWORD=
 
 # postgres
 $ DATA_BASE_TYPE=postgres
@@ -77,6 +79,7 @@ $ DATA_BASE_NAME=
 $ HTTP_ENABLE=
 
 #Services
+$ MICRO_SERVICE_ADMIN_SERVICE_PORT
 $ MICRO_SERVICE_USER_VENDOR_SERVICE_PORT=
 $ MICRO_SERVICE_CUSTOMER_SERVICE_PORT=
 
@@ -85,7 +88,11 @@ $ DEBUGGER_WRITE_INTO_FILE=
 $ DEBUGGER_MAX_FILE=
 $ DEBUGGER_MAX_SIZE=
 
+#auth
+$ JWT_SECRET_KEY=
 ```
+
+
 
 ## Support
 

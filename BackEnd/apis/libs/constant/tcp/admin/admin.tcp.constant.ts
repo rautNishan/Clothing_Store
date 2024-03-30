@@ -1,4 +1,8 @@
-export enum CUSTOMER_ADMIN_TCP {
+export enum ADMIN_TCP {
+  //Admin self related tcp
+  ADMIN_LOGIN = 'ADMIN_LOGIN',
+
+  //Admin Customer related tcp
   CUSTOMER_ADMIN_REGISTER = 'CUSTOMER_ADMIN_REGISTER',
   CUSTOMER_ADMIN_GET_ALL_CUSTOMERS = 'CUSTOMER_ADMIN_GET_ALL_CUSTOMERS',
 }
