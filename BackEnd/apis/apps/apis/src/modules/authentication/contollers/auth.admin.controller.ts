@@ -17,6 +17,7 @@ export class AuthAdminController {
   @ApiDoc({
     operation: 'Admin Login',
     serialization: FinalAdminSerialization,
+    jwtAccessToken: false,
     defaultMessagePath: 'Login Success',
     defaultStatusCode: HttpStatus.OK,
   })

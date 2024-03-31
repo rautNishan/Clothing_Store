@@ -30,7 +30,8 @@ export class CustomerAdminController {
       await queryRunner.commitTransaction();
       return data;
     } catch (error) {
-      queryRunner.rollbackTransaction();
+      console.log('🚀 ~ CustomerAdminController ~ error:', error);
+      await queryRunner.rollbackTransaction();
       throw new StrictRpcException(error);
     } finally {
       await queryRunner.release();

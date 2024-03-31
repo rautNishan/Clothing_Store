@@ -4,6 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import * as Joi from 'joi';
 import authConfig from './configs/auth.config';
 import { AuthService } from './services/auth.service';
+import { UserProtected } from './guards/auth.user-protected.guard';
+// import { UserProtected } from './guards/auth.user-protected.guard';
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { AuthService } from './services/auth.service';
       }),
     }),
     JwtModule.registerAsync({
+      global: true,
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -23,7 +26,7 @@ import { AuthService } from './services/auth.service';
       }),
     }),
   ],
-  providers: [AuthService],
-  exports: [AuthService],
+  providers: [AuthService, UserProtected],
+  exports: [AuthService, UserProtected],
 })
 export class AuthModule {}

@@ -50,6 +50,28 @@ export function DocDefault(options: IAppDocOptions): MethodDecorator {
 
 export function ApiDoc(options: IAppDocOptions): MethodDecorator {
   const docs: Array<ClassDecorator | MethodDecorator> = [];
+  //Auth Doc
+  if (options.jwtAccessToken === undefined || options.jwtAccessToken === null) {
+    options.jwtAccessToken = true;
+  }
+  if (options?.jwtAccessToken) {
+    docs.push(ApiBearerAuth('accessToken'));
+  }
+  if (options?.jwtRefreshToken) {
+    docs.push(ApiBearerAuth('refreshToken'));
+  }
+  if (options?.apiKey) {
+    docs.push(ApiBearerAuth());
+  }
+  if (options?.google) {
+    docs.push(ApiBearerAuth());
+  }
+  if (options?.headers) {
+    const headers: MethodDecorator[] = options?.headers?.map((header) =>
+      ApiHeader(header),
+    );
+    docs.push(...headers);
+  }
 
   //Default Success Doc
   if (options.serialization && options.defaultStatusCode) {
@@ -136,18 +158,5 @@ export function ApiDoc(options: IAppDocOptions): MethodDecorator {
     docs.push(...headers);
   }
 
-  //Auth Doc
-  if (options?.jwtAccessToken) {
-    docs.push(ApiBearerAuth());
-  }
-  if (options?.jwtRefreshToken) {
-    docs.push(ApiBearerAuth());
-  }
-  if (options?.apiKey) {
-    docs.push(ApiBearerAuth());
-  }
-  if (options?.google) {
-    docs.push(ApiBearerAuth());
-  }
   return applyDecorators(...docs);
 }

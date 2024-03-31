@@ -7,10 +7,11 @@ import {
 } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
 import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
-import { CustomerAdminController } from '../../modules/customer/controllers/customer.admin.controller';
 import { ExceptionFilterModule } from 'libs/error/error.http.module';
 import { ResponseModule } from 'libs/response/response.module';
 import { AuthAdminController } from '../../modules/authentication/contollers/auth.admin.controller';
+import { CustomerAdminController } from '../../modules/customer/controllers/customer.admin.controller';
+import { AuthModule } from 'libs/auth/auth.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { AuthAdminController } from '../../modules/authentication/contollers/aut
     DebuggerModule,
     ExceptionFilterModule,
     ResponseModule,
+    AuthModule,
   ],
   controllers: [AuthAdminController, CustomerAdminController],
 })

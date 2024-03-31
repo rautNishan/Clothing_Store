@@ -5,12 +5,12 @@ import { CustomerRouterModule } from './router/customer-router/customer.router.m
 
 export function swaggerSetup(app: INestApplication): void {
   const admin = new DocumentBuilder()
-    .setTitle('Admin API')
+    .setTitle('Admin APIs')
     .setDescription('Here are the APIs for the admin.')
     .setVersion('1.0')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'JWT-auth',
+      'accessToken',
     )
     .build();
   const adminDocumentation = SwaggerModule.createDocument(app, admin, {
@@ -19,12 +19,12 @@ export function swaggerSetup(app: INestApplication): void {
   SwaggerModule.setup('admin-docs', app, adminDocumentation);
 
   const customer = new DocumentBuilder()
-    .setTitle('Customer API')
+    .setTitle('Customer APIs')
     .setDescription('Here are the APIs for the customer.')
     .setVersion('1.0')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'JWT-auth',
+      'accessToken',
     )
     .build();
   const customerDocumentation = SwaggerModule.createDocument(app, customer, {

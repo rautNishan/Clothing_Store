@@ -2,8 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { BaseUserEntity } from 'libs/database/entity/base.user.entity';
 import { IJwtPayload } from '../interface/auth.interface';
+import { IBaseLoginInfo } from '../interface/base-login-info.interface';
 @Injectable()
 export class AuthService {
   //This class will check if the incoming login credential is valid or not and return jwt access token
@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async checkAuthentication(
-    incomingData: BaseUserEntity,
+    incomingData: IBaseLoginInfo,
     databaseData: any,
   ): Promise<string> {
     const isAuthenticated: boolean = await bcrypt.compare(
@@ -33,8 +33,6 @@ export class AuthService {
     };
 
     const token = await this.jwtService.signAsync(payload);
-    console.log('This is Token: ', token);
-
     return token;
   }
 }

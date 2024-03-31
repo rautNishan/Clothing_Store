@@ -9,7 +9,11 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
+import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
+import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
+import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
 import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
@@ -18,9 +22,6 @@ import {
   FinalCustomerPaginationSerialization,
   FinalCustomerSerialization,
 } from '../serializations/customer.serialization';
-import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
-import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
-import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
 
 @ApiTags('Customer')
 @Controller({
@@ -29,29 +30,35 @@ import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.co
 })
 export class CustomerAdminController {
   constructor(@Inject(Customer.name) private readonly client: ClientProxy) {}
+
   @ApiDoc({
     summary: 'Admin Create a new customer',
-    jwtAccessToken: false,
     defaultStatusCode: HttpStatus.CREATED,
     serialization: FinalCustomerSerialization,
     defaultMessagePath: 'Successfully Created',
   })
   @ResponseDataDecorator()
   @ResponseMessage('Customer Created.')
+  @UserProtectedGuard()
   @Post('/create')
   async create(@Body() customerData: CustomerCreateDto) {
-    const data = await firstValueFrom(
-      this.client.send(
-        { cmd: ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
-        customerData,
-      ),
-    );
-    return data;
+    try {
+      const data = await firstValueFrom(
+        this.client.send(
+          { cmd: ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
+          customerData,
+        ),
+      );
+      return data;
+    } catch (error) {
+      console.log('🚀 ~ CustomerAdminController ~ create ~ error:', error);
+      throw error;
+    }
   }
 
   @ApiDoc({
     summary: 'Get Customer List',
-    jwtAccessToken: false,
+    jwtAccessToken: true,
     defaultStatusCode: HttpStatus.OK,
     serialization: FinalCustomerPaginationSerialization,
     defaultMessagePath: 'Successfully Listed Customer List',

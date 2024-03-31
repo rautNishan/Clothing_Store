@@ -25,7 +25,6 @@ export class BaseUserEntity extends DbBaseEntity {
     type: 'text',
     name: 'role',
     nullable: true,
-    default: ROLES.CUSTOMER,
   })
   role: ROLES;
 }

@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import { Seeder } from 'typeorm-extension';
 import { AdminEntity } from '../entity/admin.entity';
+import { ROLES } from 'libs/database/constants/base.roles.enum';
 export class AdminSeed implements Seeder {
   async run(dataSource: DataSource): Promise<void> {
     await dataSource.query('TRUNCATE "admin" RESTART IDENTITY;');
@@ -12,6 +13,7 @@ export class AdminSeed implements Seeder {
     await repository.insert({
       userName: 'admin',
       password: password,
+      role: ROLES.ADMIN,
     });
   }
 }

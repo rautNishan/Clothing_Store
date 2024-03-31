@@ -32,6 +32,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T> {
             'responseMessage',
             context.getHandler(),
           );
+
           let data: any;
           let _pagination: IPaginationMeta | undefined;
           const metaData = {
