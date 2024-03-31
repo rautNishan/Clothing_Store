@@ -1,4 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { CustomerLoginDto } from 'apps/apis/src/modules/authentication/dtos/customer.login.dto';
+import { AuthService } from 'libs/auth/services/auth.service';
+import { ROLES } from 'libs/database/constants/base.roles.enum';
 import {
   ICreateOptions,
   IFindManyOptions,
@@ -10,11 +13,52 @@ import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-er
 import { DeepPartial } from 'typeorm';
 import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerRepository } from '../repositry/customer.repository';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class CustomerService {
-  constructor(private readonly customerRepository: CustomerRepository) {}
+  constructor(
+    private readonly customerRepository: CustomerRepository,
+    private readonly authService: AuthService,
+  ) {}
 
+  async login(incomingData: CustomerLoginDto) {
+    let existingCustomer: CustomerEntity | null = null;
+    if (incomingData.userName) {
+      existingCustomer = await this.customerRepository.findOne({
+        findOneOptions: { where: { userName: incomingData.userName } },
+      });
+      if (!existingCustomer) {
+        throw new StrictRpcException({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'User name or password did not match',
+        });
+      }
+    }
+    if (incomingData.email) {
+      existingCustomer = await this.customerRepository.findOne({
+        findOneOptions: { where: { email: incomingData.email } },
+      });
+      if (!existingCustomer) {
+        throw new StrictRpcException({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'Email or password did not match',
+        });
+      }
+    }
+    //todo login with contact
+
+    const isAuthenticated: string = await this.authService.checkAuthentication(
+      incomingData,
+      existingCustomer,
+    );
+    if (!isAuthenticated) {
+      throw new StrictRpcException({
+        statusCode: HttpStatus.UNAUTHORIZED,
+        message: 'Email or password did not match',
+      });
+    }
+    return isAuthenticated;
+  }
   async create(
     data: DeepPartial<CustomerEntity>, //todo Use Create DTO Only
     options?: ICreateOptions<CustomerEntity>,
@@ -59,6 +103,8 @@ export class CustomerService {
       }
     }
 
+    data.role = ROLES.CUSTOMER;
+    data.password = await bcrypt.hash(data.password, 10);
     //Hash Password and Save
     return await this.customerRepository.create(data, options);
   }
