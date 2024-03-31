@@ -38,7 +38,6 @@ import { AppRouterModule } from './router/router.module';
         MICRO_SERVICE_CUSTOMER_SERVICE_PORT: Joi.number().required(),
       }),
     }),
-
     //Router
     AppRouterModule.forRoot(),
   ],

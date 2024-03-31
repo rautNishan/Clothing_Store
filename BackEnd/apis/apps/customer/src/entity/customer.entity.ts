@@ -1,4 +1,3 @@
-import { ROLES } from 'libs/database/constants/base.roles.enum';
 import { BaseUserEntity } from 'libs/database/entity/base.user.entity';
 import { Column, Entity } from 'typeorm';
 
@@ -32,12 +31,4 @@ export class CustomerEntity extends BaseUserEntity {
     unique: true,
   })
   contact: string;
-
-  @Column({
-    type: 'text',
-    name: 'role',
-    nullable: true,
-    default: ROLES.CUSTOMER,
-  })
-  role: string;
 }
