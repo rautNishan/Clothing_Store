@@ -1,11 +1,19 @@
-import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
+import { GoogleProtected } from 'libs/auth/decorators/user-google.decorator';
 import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
 import { CUSTOMER_TCP } from 'libs/constant/tcp/Customer/customer.tcp.constant';
+import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerLoginDto } from '../dtos/customer.login.dto';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { FinalCustomerSerialization } from '../serializations/customer.serialization';
 
 @ApiTags('Authentication')
@@ -31,5 +39,18 @@ export class AuthCustomerController {
       console.log('🚀 ~ AuthCustomerController ~ login ~ error:', error);
       throw error;
     }
+  }
+
+  @Get('/login/google')
+  @GoogleProtected()
+  async loginWithGoogle() {
+    return 'google';
+  }
+
+  @Get('/google/')
+  @GoogleProtected()
+  async redirectAfterGoogleLogin() {
+    console.log('Request is made in /google/');
+    return 'ok';
   }
 }
