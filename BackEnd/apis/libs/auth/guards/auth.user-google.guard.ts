@@ -17,3 +17,13 @@ export class GoogleAuthGuard extends AuthGuard('google') {
     return false;
   }
 }
+
+// @Injectable()
+// export class GoogleAuthGuard implements CanActivate {
+//   constructor() {}
+//   async canActivate(
+//     context: ExecutionContext,
+//   ): boolean | Promise<boolean> | Observable<boolean> {
+
+//   }
+// }
