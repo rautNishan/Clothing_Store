@@ -13,7 +13,8 @@ async function bootstrap() {
       },
     },
   );
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  //Making all serializer property work
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); //For example @Exclude() property in entity
   await app.listen();
 }
 

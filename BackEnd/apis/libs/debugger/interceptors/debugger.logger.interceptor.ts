@@ -4,7 +4,6 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { Observable, tap } from 'rxjs';
 import { DebuggerService } from '../services/debugger.service';
 
@@ -24,33 +23,35 @@ export class DebuggerInterceptor implements NestInterceptor {
     }
 
     const request = context.switchToHttp().getRequest();
-    const response: Response = context.switchToHttp().getResponse<Response>();
+    // const response: Response = context.switchToHttp().getResponse<Response>();
     const startTime = Date.now();
 
     return next.handle().pipe(
       tap({
-        next: (data) => {
-          const duration = Date.now() - startTime;
-          this.debuggerService.info({
-            request: {
-              type: 'request',
-              method: request.method,
-              path: request.path,
-              originalUrl: request.originalUrl,
-              params: request.params,
-              body: request.body,
-              hostname: request.hostname,
-              protocol: request.protocol,
-              data: data,
-            },
-            response: {
-              type: 'response',
-              statusCode: response.statusCode,
-              duration: `${duration}ms`,
-            },
-          });
+        //Do nothing if it is success
+        next: () => {
+          // const duration = Date.now() - startTime;
+          // this.debuggerService.info({
+          //   request: {
+          //     type: 'request',
+          //     method: request.method,
+          //     path: request.path,
+          //     originalUrl: request.originalUrl,
+          //     params: request.params,
+          //     body: request.body,
+          //     hostname: request.hostname,
+          //     protocol: request.protocol,
+          //     data: data,
+          //   },
+          //   response: {
+          //     type: 'response',
+          //     statusCode: response.statusCode,
+          //     duration: `${duration}ms`,
+          //   },
+          // });
         },
         error: (error) => {
+          //Only make logs on errors
           const duration = Date.now() - startTime;
           this.debuggerService.error({
             request: {
@@ -59,7 +60,6 @@ export class DebuggerInterceptor implements NestInterceptor {
               path: request.path,
               originalUrl: request.originalUrl,
               params: request.params,
-              body: request.body,
               hostname: request.hostname,
               protocol: request.protocol,
             },

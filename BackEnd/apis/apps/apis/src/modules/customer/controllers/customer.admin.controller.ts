@@ -4,16 +4,19 @@ import {
   Get,
   HttpStatus,
   Inject,
+  Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
-import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
+import { UseParamGuard } from 'libs/request/decorators/param.guard.decorator';
 import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
@@ -22,6 +25,8 @@ import {
   FinalCustomerPaginationSerialization,
   FinalCustomerSerialization,
 } from '../serializations/customer.serialization';
+import { CustomerUpdateDto } from '../dtos/customer.update.dto';
+import { ICustomerUpdate } from '../interface/customer.update.interface';
 
 @ApiTags('Customer')
 @Controller({
@@ -29,7 +34,9 @@ import {
   version: '1',
 })
 export class CustomerAdminController {
-  constructor(@Inject(Customer.name) private readonly client: ClientProxy) {}
+  constructor(
+    @Inject(Customer.name) private readonly _adminClient: ClientProxy,
+  ) {}
 
   @ApiDoc({
     summary: 'Admin Create a new customer',
@@ -44,14 +51,13 @@ export class CustomerAdminController {
   async create(@Body() customerData: CustomerCreateDto) {
     try {
       const data = await firstValueFrom(
-        this.client.send(
+        this._adminClient.send(
           { cmd: ADMIN_TCP.CUSTOMER_ADMIN_REGISTER },
           customerData,
         ),
       );
       return data;
     } catch (error) {
-      console.log('🚀 ~ CustomerAdminController ~ create ~ error:', error);
       throw error;
     }
   }
@@ -67,7 +73,7 @@ export class CustomerAdminController {
   @Get('/list')
   async list(@Query() paginationQuery: PaginationQueryDto) {
     const data = await firstValueFrom(
-      this.client.send(
+      this._adminClient.send(
         {
           cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
         },
@@ -75,5 +81,44 @@ export class CustomerAdminController {
       ),
     );
     return data;
+  }
+
+  @ApiDoc({
+    operation: 'Update User By Id',
+    params: [
+      {
+        type: 'number',
+        name: 'id',
+        required: true,
+      },
+    ],
+    serialization: FinalCustomerSerialization,
+    defaultStatusCode: HttpStatus.OK,
+    defaultMessagePath: 'Update Success',
+  })
+  @ResponseMessage('Updated Successfully')
+  @ResponseDataDecorator()
+  @UseParamGuard()
+  @Patch('/update/:id')
+  async update(@Param('id') id: number, @Body() updateData: CustomerUpdateDto) {
+    try {
+      //Always Make it Strict
+      const dataToSend: ICustomerUpdate = {
+        id: id,
+        updateData: updateData,
+      };
+
+      const data = firstValueFrom(
+        this._adminClient.send(
+          { cmd: ADMIN_TCP.CUSTOMER_ADMIN_UPDATE_CUSTOMER_BY_ID },
+          dataToSend,
+        ),
+      );
+
+      return data;
+    } catch (error) {
+      console.log('🚀 ~ CustomerAdminController ~ update ~ error:', error);
+      throw error;
+    }
   }
 }

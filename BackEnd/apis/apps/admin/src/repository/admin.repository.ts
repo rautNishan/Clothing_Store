@@ -8,8 +8,8 @@ import { AdminEntity } from '../entity/admin.entity';
 export class AdminRepository extends BaseRepository<AdminEntity> {
   constructor(
     @InjectRepository(AdminEntity)
-    private readonly adminRepo: Repository<AdminEntity>,
+    private readonly _adminRepo: Repository<AdminEntity>,
   ) {
-    super(adminRepo);
+    super(_adminRepo);
   }
 }

@@ -7,13 +7,14 @@ import { AdminService } from '../services/admin.service';
 
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(private readonly _adminService: AdminService) {}
   @MessagePattern({ cmd: ADMIN_TCP.ADMIN_LOGIN })
   async login(incomingData: BaseUserEntity) {
     try {
-      const data = await this.adminService.login(incomingData);
+      const data = await this._adminService.login(incomingData);
       return data;
     } catch (error) {
+      console.log('🚀 ~ AdminController ~ login ~ error:', error);
       throw new StrictRpcException(error);
     }
   }

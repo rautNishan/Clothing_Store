@@ -5,6 +5,7 @@ import { CustomerLoginDto } from '../dtos/customer.login.dto';
 import { CustomerService } from '../services/customer.service';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 
+//These are all user control
 @Controller('customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
@@ -12,7 +13,6 @@ export class CustomerController {
   @MessagePattern({ cmd: CUSTOMER_TCP.CUSTOMER_LOGIN })
   async login(incomingData: CustomerLoginDto) {
     try {
-      console.log('Calling This Controller');
       const data = await this.customerService.login(incomingData);
       return data;
     } catch (error) {
