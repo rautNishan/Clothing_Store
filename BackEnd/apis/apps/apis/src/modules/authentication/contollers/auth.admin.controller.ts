@@ -4,14 +4,14 @@ import { ApiTags } from '@nestjs/swagger';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { firstValueFrom } from 'rxjs';
 import { AdminLoginDto } from '../dtos/admin.login.dto';
-import { Admin } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { Admin } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { FinalAdminSerialization } from '../serializations/admin.serialization';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthAdminController {
-  constructor(@Inject(Admin.name) private readonly client: ClientProxy) {}
+  constructor(@Inject(Admin.name) private readonly _adminClient: ClientProxy) {}
 
   @Post('/login')
   @ApiDoc({
@@ -24,7 +24,7 @@ export class AuthAdminController {
   async login(@Body() body: AdminLoginDto): Promise<any> {
     try {
       const token = await firstValueFrom(
-        this.client.send(
+        this._adminClient.send(
           {
             cmd: ADMIN_TCP.ADMIN_LOGIN,
           },
@@ -33,8 +33,7 @@ export class AuthAdminController {
       );
       return { token };
     } catch (error) {
-      console.log('This is Error: ', error);
-
+      console.log('🚀 ~ AuthAdminController ~ login ~ error:', error);
       throw error;
     }
   }

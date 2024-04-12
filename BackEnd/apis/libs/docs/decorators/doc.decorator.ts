@@ -11,7 +11,7 @@ import {
   ApiResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { ResponseSerialization } from 'libs/response/serialization/reponse.serialization';
+import { ResponseSerialization } from 'libs/response/serialization/response.serialization';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from '../constants/doc.enum.constant';
 import { IAppDocOptions } from '../interfaces/doc.interfaces';
 

@@ -9,7 +9,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { GoogleProtected } from 'libs/auth/decorators/user-google.decorator';
-import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { CUSTOMER_TCP } from 'libs/constant/tcp/Customer/customer.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
@@ -19,7 +19,9 @@ import { FinalCustomerSerialization } from '../serializations/customer.serializa
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthCustomerController {
-  constructor(@Inject(Customer.name) private readonly client: ClientProxy) {}
+  constructor(
+    @Inject(Customer.name) private readonly _customerClient: ClientProxy,
+  ) {}
 
   @Post('/login')
   @ApiDoc({
@@ -31,10 +33,13 @@ export class AuthCustomerController {
   })
   async login(@Body() incomingData: CustomerLoginDto): Promise<any> {
     try {
-      const data = await firstValueFrom(
-        this.client.send({ cmd: CUSTOMER_TCP.CUSTOMER_LOGIN }, incomingData),
+      const token = await firstValueFrom(
+        this._customerClient.send(
+          { cmd: CUSTOMER_TCP.CUSTOMER_LOGIN },
+          incomingData,
+        ),
       );
-      return { data };
+      return { token };
     } catch (error) {
       console.log('🚀 ~ AuthCustomerController ~ login ~ error:', error);
       throw error;

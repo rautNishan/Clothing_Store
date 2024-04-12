@@ -4,7 +4,7 @@ import {
   Admin,
   Customer,
   User_Vendor,
-} from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+} from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
 import { ExceptionFilterModule } from 'libs/error/error.http.module';
@@ -12,6 +12,7 @@ import { ResponseModule } from 'libs/response/response.module';
 import { AuthAdminController } from '../../modules/authentication/contollers/auth.admin.controller';
 import { CustomerAdminController } from '../../modules/customer/controllers/customer.admin.controller';
 import { AuthModule } from 'libs/auth/auth.module';
+import { AdminBackUpController } from '../../modules/backup/controllers/backup.admin.controller';
 
 @Module({
   imports: [
@@ -49,6 +50,10 @@ import { AuthModule } from 'libs/auth/auth.module';
     ResponseModule,
     AuthModule,
   ],
-  controllers: [AuthAdminController, CustomerAdminController],
+  controllers: [
+    AuthAdminController,
+    CustomerAdminController,
+    AdminBackUpController,
+  ],
 })
 export class AdminRouterModule {}

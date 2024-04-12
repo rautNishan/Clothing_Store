@@ -35,6 +35,7 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
 
   async update(data: DeepPartial<T>, options?: IUpdateOptions<T>): Promise<T> {
     try {
+      data.updatedAt = new Date();
       if (options?.entityManger) {
         return options.entityManger.save<T>(data as T);
       } else {

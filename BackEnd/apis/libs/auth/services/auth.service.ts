@@ -1,7 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { IJwtPayload } from '../interface/auth.interface';
 import { IBaseLoginInfo } from '../interface/base-login-info.interface';
 @Injectable()
@@ -21,8 +22,12 @@ export class AuthService {
       incomingData.password,
       databaseData.password,
     );
+
     if (!isAuthenticated) {
-      throw new UnauthorizedException('User Name or Password did not match');
+      throw new StrictRpcException({
+        message: 'User Name or Password did not match',
+        statusCode: HttpStatus.UNAUTHORIZED,
+      });
     }
 
     //if password match return with jwt access token
@@ -31,7 +36,6 @@ export class AuthService {
       role: databaseData.role,
       userName: databaseData.userName,
     };
-
     const token = await this.jwtService.signAsync(payload);
     return token;
   }
