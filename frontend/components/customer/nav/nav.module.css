@@ -1,3 +1,26 @@
-.nav{
-    border: 2px solid black;
+.nav {
+  height: 5vh;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  box-shadow: 0px 0px 6px 0px rgba(109, 21, 222, 0.4);
+}
+
+.links {
+  padding-right: 6%;
+  padding-top: 0.3%;
+  text-decoration: none;
+  color: black;
+  font-family: "Lato", sans-serif;
+  font-size: 20px;
+}
+
+.links:hover {
+  font-size: 22px;
+  text-shadow: -1px -3px 5.5px rgb(0, 0, 0);
+}
+
+.active {
+  color: #6d15de; /* Active color */
 }

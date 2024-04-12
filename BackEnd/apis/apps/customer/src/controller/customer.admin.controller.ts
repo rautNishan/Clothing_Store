@@ -62,6 +62,22 @@ export class CustomerAdminController {
     }
   }
 
+  @MessagePattern({ cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_BY_ID })
+  async getById(id: number): Promise<CustomerEntity | null> {
+    try {
+      const existingData: CustomerEntity | null =
+        await this._customerService.findById(id);
+      if (!existingData) {
+        throw new StrictRpcException({
+          message: 'User with that id was not found',
+          statusCode: HttpStatus.NOT_FOUND,
+        });
+      }
+      return existingData;
+    } catch (error) {
+      throw new StrictRpcException(error);
+    }
+  }
   @MessagePattern({ cmd: ADMIN_TCP.CUSTOMER_ADMIN_UPDATE_CUSTOMER_BY_ID })
   async update(incomingData: ICustomerUpdate): Promise<CustomerEntity> {
     const queryRunner: QueryRunner = this._dataSource.createQueryRunner();
@@ -94,7 +110,6 @@ export class CustomerAdminController {
       return updatedData;
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      console.log('🚀 ~ CustomerAdminController ~ update ~ error:', error);
       throw new StrictRpcException(error);
     } finally {
       await queryRunner.release();

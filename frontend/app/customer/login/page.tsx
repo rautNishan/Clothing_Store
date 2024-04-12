@@ -1,2 +1,3 @@
-export default function CustomerLogin() {}
-//fetching yai garnu
+export default function CustomerLogin() {
+    return<>This is Login Page</>
+}

@@ -71,6 +71,7 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
     options?: IPaginatedOptions<T>,
   ): Promise<IPaginationResponse<T>> {
     try {
+      //Pagination Options
       const page: number =
         options?.page && options.page > 0
           ? options.page
@@ -108,9 +109,11 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
       if (options?.relations && options.relations) {
         findAllWithPaginationOptions.relations = options.relations;
       }
-      // if (options?.withDeleted && options.withDeleted) {
-      //   findAllWithPaginationOptions.withDeleted = true;
-      // }
+
+      if (options?.withDeleted && options.withDeleted) {
+        findAllWithPaginationOptions.withDeleted = true;
+      }
+      //Else take default
       findAllWithPaginationOptions.withDeleted = options?.withDeleted;
 
       //For Sorting
@@ -122,6 +125,16 @@ export abstract class BaseRepository<T extends DbBaseEntity> {
         findAllWithPaginationOptions.order = order;
       }
 
+      if (findAllWithPaginationOptions.withDeleted) {
+        //if it is true get data that is with deleted
+      } else {
+      }
+      console.log(
+        'This is Find All With Pagination: ',
+        findAllWithPaginationOptions,
+      );
+
+      //Get Data
       const [data, count] = await this.repository.findAndCount(
         findAllWithPaginationOptions,
       );

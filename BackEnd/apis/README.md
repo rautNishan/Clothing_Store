@@ -61,6 +61,20 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Important before contributing
+
+```bash
+$ Use Try and Catch
+
+$ Always throw StrictRpcException from Services.
+
+$ Follow the existing file/folder structure.
+
+$ If there are any common resources shared by different services put them in ./libs folder
+
+
+```
+
 ## .env
 
 ```bash
@@ -137,7 +151,7 @@ $ GOOGLE_CALL_BACK_URI=
 
    Where
       -h stands for Host of the database (Where data base is either localhost or in some server).
-      -p stands for port 
+      -p stands for port
       -U stands for User name that will be used to connect to the database.
       -1 This option is used to instruct `pg_restore` to restore the database in a single transaction.
 ```
