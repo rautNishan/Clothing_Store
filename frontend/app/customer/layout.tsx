@@ -22,7 +22,7 @@ export default function CustomerLayout({
         </nav>
       </header>
       <main>{children}</main>
-      <footer>Footer</footer>
+      {/* <footer>Footer</footer> */}
     </>
   );
 }

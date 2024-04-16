@@ -105,6 +105,7 @@ export class CustomerService {
     }
 
     data.role = ROLES.CUSTOMER;
+    data.deletedAt = null;
     data.password = await bcrypt.hash(data.password, 10);
 
     //Hash Password and Save

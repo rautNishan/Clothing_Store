@@ -70,17 +70,50 @@ export class CustomerAdminController {
     defaultMessagePath: 'Successfully Listed Customer List',
   })
   @ResponseMessage('Customer Lists.')
+  @UserProtectedGuard()
   @Get('/list')
   async list(@Query() paginationQuery: PaginationQueryDto) {
-    const data = await firstValueFrom(
-      this._adminClient.send(
-        {
-          cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
-        },
-        paginationQuery,
-      ),
-    );
-    return data;
+    try {
+      const data = await firstValueFrom(
+        this._adminClient.send(
+          {
+            cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_ALL_CUSTOMERS,
+          },
+          paginationQuery,
+        ),
+      );
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get('info/:id')
+  @ApiDoc({
+    operation: 'Get Customer By Id',
+    serialization: FinalCustomerSerialization,
+    defaultMessagePath: 'Successfully get by id',
+    defaultStatusCode: HttpStatus.OK,
+  })
+  @UseParamGuard()
+  @UserProtectedGuard()
+  async getById(@Param('id') id: number) {
+    try {
+      await firstValueFrom(
+        this._adminClient.send(
+          {
+            cmd: ADMIN_TCP.CUSTOMER_ADMIN_GET_BY_ID,
+          },
+          id,
+        ),
+      );
+    } catch (error) {
+      console.log(
+        '🚀 ~ CustomerAdminController ~ getById ~ error API GATEWAY:',
+        error,
+      );
+      throw error;
+    }
   }
 
   @ApiDoc({
@@ -117,7 +150,6 @@ export class CustomerAdminController {
 
       return data;
     } catch (error) {
-      console.log('🚀 ~ CustomerAdminController ~ update ~ error:', error);
       throw error;
     }
   }
