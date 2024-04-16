@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseSerialization } from 'libs/response/serialization/reponse.serialization';
+import { ResponseSerialization } from 'libs/response/serialization/response.serialization';
 
 export class AdminSerialization {
   @ApiProperty({

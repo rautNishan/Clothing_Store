@@ -1,0 +1,111 @@
+.login_container {
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 /30%);
+  border-radius: 38px;
+  height: auto;
+  width: 25%;
+  min-width: 28rem;
+  margin: auto;
+  margin-top: 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login_text {
+  font-size: 25px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.sub_text {
+  font-size: 16px;
+  opacity: 60%;
+  padding: 10px;
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 80%;
+  padding: 10px;
+}
+
+.forget_password {
+  padding: 0;
+  opacity: 80%;
+  margin: 5px;
+  text-align: right;
+  color: rgb(109, 21, 222);
+  font-size: 14px;
+}
+.forget_password a {
+  color: (109, 21, 222);
+}
+
+.label {
+  opacity: 60%;
+  padding: 10px 0;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid rgb(0, 0, 0, 0.7);
+}
+
+.login_button {
+  width: 80%;
+  height: 2.5rem;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(109, 21, 222, 0.7);
+  border: none;
+  font-size: 16px;
+  margin-top: 1.4rem;
+}
+
+.login_button:hover {
+  background-color: rgb(109, 21, 222);
+}
+
+.continue_with_google {
+  border: 1.5px solid rgb(0, 0, 0, 0.4);
+  padding: 6px;
+  display: flex;
+  width: 76.5%;
+  height: 1.5rem;
+  border-radius: 10px;
+  justify-content: center;
+  transition: border-color 0.4s ease-in-out;
+}
+.continue_with_google:hover {
+  border: 1.5px solid rgb(109, 21, 222);
+}
+
+.google_text {
+  margin-left: 10px;
+  color: rgb(109, 21, 222);
+  text-decoration: none;
+}
+
+.google_text a {
+  text-decoration: none;
+}
+
+.continue_with_email {
+  font-size: 14px;
+  opacity: 80%;
+  padding: 10px;
+  color: rgb(109, 21, 222);
+}
+
+.new_to_app {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.new_to_app a {
+  padding-left: 10px;
+  color: (109, 21, 222);
+  text-decoration: none;
+}

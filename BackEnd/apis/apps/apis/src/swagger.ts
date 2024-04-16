@@ -16,7 +16,12 @@ export function swaggerSetup(app: INestApplication): void {
   const adminDocumentation = SwaggerModule.createDocument(app, admin, {
     include: [AdminRouterModule],
   });
-  SwaggerModule.setup('admin-docs', app, adminDocumentation);
+  SwaggerModule.setup('admin-docs', app, adminDocumentation, {
+    swaggerOptions: {
+      //Add this for preserve auth token in local storage (Refreshing page will not remove token from swagger)
+      persistAuthorization: true,
+    },
+  });
 
   const customer = new DocumentBuilder()
     .setTitle('Customer APIs')
@@ -30,5 +35,10 @@ export function swaggerSetup(app: INestApplication): void {
   const customerDocumentation = SwaggerModule.createDocument(app, customer, {
     include: [CustomerRouterModule],
   });
-  SwaggerModule.setup('customer-docs', app, customerDocumentation);
+  SwaggerModule.setup('customer-docs', app, customerDocumentation, {
+    swaggerOptions: {
+      //Add this for preserve auth token in local storage (Refreshing page will not remove token from swagger)
+      persistAuthorization: true,
+    },
+  });
 }

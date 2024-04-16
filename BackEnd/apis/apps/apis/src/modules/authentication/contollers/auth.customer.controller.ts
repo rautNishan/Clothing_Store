@@ -1,17 +1,27 @@
-import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { Customer } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { GoogleProtected } from 'libs/auth/decorators/user-google.decorator';
+import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { CUSTOMER_TCP } from 'libs/constant/tcp/Customer/customer.tcp.constant';
+import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerLoginDto } from '../dtos/customer.login.dto';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { FinalCustomerSerialization } from '../serializations/customer.serialization';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthCustomerController {
-  constructor(@Inject(Customer.name) private readonly client: ClientProxy) {}
+  constructor(
+    @Inject(Customer.name) private readonly _customerClient: ClientProxy,
+  ) {}
 
   @Post('/login')
   @ApiDoc({
@@ -23,13 +33,29 @@ export class AuthCustomerController {
   })
   async login(@Body() incomingData: CustomerLoginDto): Promise<any> {
     try {
-      const data = await firstValueFrom(
-        this.client.send({ cmd: CUSTOMER_TCP.CUSTOMER_LOGIN }, incomingData),
+      const token = await firstValueFrom(
+        this._customerClient.send(
+          { cmd: CUSTOMER_TCP.CUSTOMER_LOGIN },
+          incomingData,
+        ),
       );
-      return { data };
+      return { token };
     } catch (error) {
       console.log('🚀 ~ AuthCustomerController ~ login ~ error:', error);
       throw error;
     }
+  }
+
+  @Get('/login/google')
+  @GoogleProtected()
+  async loginWithGoogle() {
+    return 'google';
+  }
+
+  @Get('/google/')
+  @GoogleProtected()
+  async redirectAfterGoogleLogin() {
+    console.log('Request is made in /google/');
+    return 'ok';
   }
 }

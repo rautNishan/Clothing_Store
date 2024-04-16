@@ -1,6 +1,6 @@
 import { Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { User_Vendor } from 'libs/constant/MicroServicesName/MicroServices-Names.constant';
+import { User_Vendor } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { USER_VENDOR_TCP } from 'libs/constant/tcp/User-Vendor/UserVendor.tcp.constant';
 import { firstValueFrom } from 'rxjs';
 

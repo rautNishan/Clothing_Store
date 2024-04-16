@@ -61,6 +61,20 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Important before contributing
+
+```bash
+$ Use Try and Catch
+
+$ Always throw StrictRpcException from Services.
+
+$ Follow the existing file/folder structure.
+
+$ If there are any common resources shared by different services put them in ./libs folder
+
+
+```
+
 ## .env
 
 ```bash
@@ -79,7 +93,7 @@ $ DATA_BASE_NAME=
 $ HTTP_ENABLE=
 
 #Services
-$ MICRO_SERVICE_ADMIN_SERVICE_PORT
+$ MICRO_SERVICE_ADMIN_SERVICE_PORT=
 $ MICRO_SERVICE_USER_VENDOR_SERVICE_PORT=
 $ MICRO_SERVICE_CUSTOMER_SERVICE_PORT=
 
@@ -90,9 +104,67 @@ $ DEBUGGER_MAX_SIZE=
 
 #auth
 $ JWT_SECRET_KEY=
+$ GOOGLE_CLIENT_ID=
+$ GOOGLE_CLIENT_SECRET=
+$ GOOGLE_CALL_BACK_URI=
 ```
 
+## DataBase Dump
 
+```
+# Command for Database Dump
+  `pg_dump -F t -h ${dbHost}, -U ${dbUsername} ${dbName} > ${fileName}`
+
+   Where
+      -F stands for "format", the t indicates that the backup should be in "tar" format.
+      -h stands for Host of the database (Where data base is either localhost or in some server).
+      -U stands for User name that will be used to connect to the database.
+      -{dbHost} variable that indicates database host (server address)
+      -{dbUsername} variable that indicates database user name.
+      -{dbName} variable that indicates database name.
+      -{fileName} variable that indicates what the name of file should be and where should be it located (folder path/file).
+
+```
+
+## DataBase Tables Dump
+
+```
+# Command for Database tables Dump
+  `pg_dump -F t -h ${dbHost} -U ${dbUsername} ${tableOptions} ${dbName} > ${fileName}`
+
+   Where
+      -F stands for "format", the t indicates that the backup should be in "tar" format.
+      -h stands for Host of the database (Where data base is either localhost or in some server).
+      -U stands for User name that will be used to connect to the database.
+      -{dbHost} variable that indicates database host (server address)
+      -{dbUsername} variable that indicates database user name.
+      -{tableOptions} variable that indicates what tables of the database should be selected for dump (back up)
+      -{dbName} variable that indicates database name
+
+```
+
+## Database Restore
+
+```
+# Command for database restore
+  `pg_restore  -h ${hostName} -p ${Port} -U {databaseUserName} -d ${databaseName} -1 ${dumpFileName}`
+
+   Where
+      -h stands for Host of the database (Where data base is either localhost or in some server).
+      -p stands for port
+      -U stands for User name that will be used to connect to the database.
+      -1 This option is used to instruct `pg_restore` to restore the database in a single transaction.
+```
+
+## Database Tables Restore
+
+```
+#Command for restoring database table while creating table
+    pg_restore -h ${hostName} -p ${Port} -U ${databaseUserName} -d {dataBaseName} -1 -t ${tableName} ${dumpFileName}
+
+#Command for restoring only data of table (Restoring Value into existing table)
+    pg_restore -h ${hostName} -p ${Port} -U ${databaseUserName} -d {dataBaseName} -1 -t ${tableName} --data-only ${dumpFileName}
+```
 
 ## Support
 

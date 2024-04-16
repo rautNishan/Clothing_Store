@@ -33,18 +33,18 @@ export class DebuggerOptionService implements IDebuggerOptionService {
         }),
       );
 
-      transports.push(
-        new DailyRotateFile({
-          filename: `info-%DATE%.log`,
-          dirname: `logs/info`,
-          datePattern: 'YYYY-MM-DD',
-          zippedArchive: true,
-          maxFiles: maxFiles,
-          maxSize: maxSize,
-          level: 'info',
-          auditFile: 'logs/info',
-        }),
-      );
+      // transports.push(
+      //   new DailyRotateFile({
+      //     filename: `info-%DATE%.log`,
+      //     dirname: `logs/info`,
+      //     datePattern: 'YYYY-MM-DD',
+      //     zippedArchive: true,
+      //     maxFiles: maxFiles,
+      //     maxSize: maxSize,
+      //     level: 'info',
+      //     auditFile: 'logs/info',
+      //   }),
+      // );
     }
 
     const LoggerOptions: LoggerOptions = {
