@@ -16,6 +16,6 @@ jobs:
         with:
           node-version: '20.12.1'
       - name: Install Dependencies
-        run: cd backend/apis && pnpm install
+        run: cd backend/apis && npm install
       - name: Lint
-        run: cd backend/apis && pnpm run lint
+        run: cd backend/apis && npm run lint
