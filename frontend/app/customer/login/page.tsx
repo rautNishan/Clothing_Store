@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./login.module.css";
 import Image from "next/image";
 
@@ -16,14 +17,18 @@ export default function CustomerLogin() {
         <label htmlFor="Password" className={styles.label}>
           Password
         </label>
-        <input placeholder="********" className={styles.input} type="text" />
+        <input
+          placeholder="********"
+          className={styles.input}
+          type="password"
+        />
         <a href="" className={styles.forget_password}>
           Forget Password?{" "}
         </a>
       </div>
       <button className={styles.login_button}>Login</button>
       <label className={styles.sub_text}>-or-</label>
-      <div className={styles.continue_with_google}>
+      <button className={styles.continue_with_google}>
         <div className={styles.google_img}>
           <Image
             src="/svg/icons8-google-48.png"
@@ -33,15 +38,15 @@ export default function CustomerLogin() {
           />
         </div>
         <label className={styles.google_text}>
-          <a href="">Continue with Google</a>
+          <label>Continue with Google</label>
         </label>
-      </div>
+      </button>
       <a className={styles.continue_with_email} href="">
         Continue With Email
       </a>
       <div className={styles.new_to_app}>
         <label htmlFor="">New to app?</label>
-        <a href="">Create new account</a>
+        <Link href="/register">Create new account</Link>
       </div>
     </div>
   );

@@ -1,15 +1,16 @@
 .login_container {
-  box-shadow: 0px 1px 5px 0px rgb(0 0 0 /30%);
+  border: 1.5px solid rgb(208, 205, 205, 0.75);
   border-radius: 38px;
   height: auto;
   width: 25%;
   min-width: 28rem;
   margin: auto;
-  margin-top: 6%;
+  margin-top: 4.5%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .login_text {
   font-size: 25px;
   padding: 10px;
@@ -39,18 +40,22 @@
   font-size: 14px;
 }
 .forget_password a {
-  color: (109, 21, 222);
+  color: rgb(109, 21, 222);
+}
+
+.forget_password:hover {
+  opacity: 100%;
 }
 
 .label {
-  opacity: 60%;
+  opacity: 90%;
   padding: 10px 0;
 }
 
 .input {
   padding: 10px;
   border-radius: 12px;
-  border: 2px solid rgb(0, 0, 0, 0.7);
+  border: 1.5px solid rgb(0, 0, 0, 0.4);
 }
 
 .login_button {
@@ -61,7 +66,7 @@
   background-color: rgb(109, 21, 222, 0.7);
   border: none;
   font-size: 16px;
-  margin-top: 1.4rem;
+  margin-top: 1.6rem;
 }
 
 .login_button:hover {
@@ -72,14 +77,17 @@
   border: 1.5px solid rgb(0, 0, 0, 0.4);
   padding: 6px;
   display: flex;
-  width: 76.5%;
-  height: 1.5rem;
+  width: 78.9%;
+  height: 2.4rem;
   border-radius: 10px;
   justify-content: center;
+  align-items: center;
   transition: border-color 0.4s ease-in-out;
+  background-color: rgb(255, 255, 255);
 }
 .continue_with_google:hover {
   border: 1.5px solid rgb(109, 21, 222);
+  cursor: pointer;
 }
 
 .google_text {
@@ -88,24 +96,42 @@
   text-decoration: none;
 }
 
-.google_text a {
-  text-decoration: none;
+.google_text label {
+  opacity: 75%;
+  cursor: pointer;
+}
+
+.google_text label:hover {
+  opacity: 100%;
+  cursor: pointer;
 }
 
 .continue_with_email {
   font-size: 14px;
-  opacity: 80%;
+  opacity: 75%;
   padding: 10px;
   color: rgb(109, 21, 222);
+  margin-top: 7px;
+}
+
+.continue_with_email:hover {
+  opacity: 100%;
 }
 
 .new_to_app {
   font-size: 16px;
   padding: 10px;
+  margin-bottom: 32px;
+  margin-top: 6px;
 }
 
 .new_to_app a {
+  color: rgb (109, 21, 222);
+  opacity: 75%;
   padding-left: 10px;
-  color: (109, 21, 222);
   text-decoration: none;
+}
+
+.new_to_app a:hover {
+  opacity: 100%;
 }
