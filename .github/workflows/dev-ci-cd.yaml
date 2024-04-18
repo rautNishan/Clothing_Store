@@ -3,7 +3,11 @@ on:
  push:
   paths:
    - "backend/apis/**"
+<<<<<<< Updated upstream
   branches: [development]
+=======
+  branches: [ development ]
+>>>>>>> Stashed changes
 
 jobs:
  build-and-test:
