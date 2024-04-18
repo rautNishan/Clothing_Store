@@ -180,4 +180,5 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
+# CI/CD Trigger Test2
 <!-- pnpm migration:generate libs/database/migrations/customer-update -->
