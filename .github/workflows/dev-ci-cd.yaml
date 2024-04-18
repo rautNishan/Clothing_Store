@@ -3,7 +3,7 @@ on:
  push:
   paths:
    - "backend/apis/**"
-  branches: [development]
+  branches: [main, development]
 
 jobs:
  build-and-test:
