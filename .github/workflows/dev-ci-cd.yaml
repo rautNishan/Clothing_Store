@@ -3,19 +3,17 @@ on:
   push:
     paths:
       - "BackEnd/apis/**"
-    branches: [main]
+    branches: [main, development]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.12.1'
-      - name: Install Dependencies
-        run: cd BackEnd/apis && npm install
+          node-version: "20.12.1"
       - name: Lint
         run: cd BackEnd/apis && npm run lint
