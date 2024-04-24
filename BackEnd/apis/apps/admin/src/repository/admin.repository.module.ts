@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminEntity } from '../entity/admin.entity';
-import { AdminRepository } from './admin.repository';
 
+import { AdminRepository } from './admin.repository';
+import { AdminEntity } from 'libs/entities/admin/admin.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([AdminEntity])],
   providers: [AdminRepository],

@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
-import { BaseUserEntity } from 'libs/database/entity/base.user.entity';
+import { BaseUserEntity } from 'libs/database/base-entity/base.user.entity';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { AdminService } from '../services/admin.service';
 

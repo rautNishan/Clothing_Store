@@ -1,18 +1,20 @@
 import { Controller } from '@nestjs/common';
-import { AdminBackUpService } from '../services/admin.backup.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
-import { BackUpTablesDto } from '../dtos/backup.table.dto';
+import { BackUpTablesDto, DatabaseNameDto } from '../dtos/backup.table.dto';
+import { AdminBackUpService } from '../services/admin.backup.service';
 
 @Controller('backup')
 export class AdminBackUpController {
   constructor(private readonly _adminService: AdminBackUpService) {}
 
   @MessagePattern({ cmd: ADMIN_TCP.ADMIN_DATA_BASE_BACK_UP })
-  async databaseBackUp(): Promise<string> {
+  async databaseBackUp(incomingData: DatabaseNameDto): Promise<string> {
     try {
-      const data: string = await this._adminService.databaseBackUp();
+      const { databaseName } = incomingData;
+      const data: string =
+        await this._adminService.databaseBackUp(databaseName);
       return data;
     } catch (error) {
       throw new StrictRpcException(error);
@@ -20,12 +22,13 @@ export class AdminBackUpController {
   }
 
   @MessagePattern({ cmd: ADMIN_TCP.ADMIN_DATA_BASE_TABLES_BACK_UP })
-  async databaseTableBackUp(incomingTables: BackUpTablesDto): Promise<string> {
+  async databaseTableBackUp(incomingData: BackUpTablesDto): Promise<string> {
+    const { databaseName, tables } = incomingData;
     try {
-      console.log('Request has been made in table backup');
-
-      const data: string =
-        await this._adminService.databaseTableBackUp(incomingTables);
+      const data: string = await this._adminService.databaseTableBackUp(
+        databaseName,
+        tables,
+      );
       return data;
     } catch (error) {
       throw new StrictRpcException(error);

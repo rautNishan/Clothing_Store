@@ -7,9 +7,9 @@ import {
 } from 'libs/database/interface/database.interface';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
-import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerService } from '../services/customer.service';
 import { ICustomerUpdate } from '../interfaces/customer.update.interface';
+import { CustomerEntity } from 'libs/entities/customer/customer.entity';
 
 //These are all admin controls
 @Controller('customer')

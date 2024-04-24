@@ -1,10 +1,10 @@
-import { DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-dotenv.config();
+import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import { AdminEntity } from '../entity/admin.entity';
+dotenv.config();
 import { ROLES } from 'libs/database/constants/base.roles.enum';
+import { AdminEntity } from 'libs/entities/admin/admin.entity';
 export class AdminSeed implements Seeder {
   async run(dataSource: DataSource): Promise<void> {
     await dataSource.query('TRUNCATE "admin" RESTART IDENTITY;');

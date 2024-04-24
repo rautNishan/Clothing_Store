@@ -33,7 +33,7 @@ import { AppRouterModule } from './router/router.module';
         DATA_BASE_PORT: Joi.number().required(),
         DATA_BASE_USER: Joi.string().required(),
         DATA_BASE_PASSWORD: Joi.string().required(),
-        DATA_BASE_NAME: Joi.string().required(),
+        // DATA_BASE_NAME: Joi.string().required(),
         MICRO_SERVICE_USER_VENDOR_SERVICE_PORT: Joi.number().required(),
         MICRO_SERVICE_CUSTOMER_SERVICE_PORT: Joi.number().required(),
       }),

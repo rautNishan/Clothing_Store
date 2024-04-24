@@ -6,6 +6,8 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 export class DatabaseService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log('This is DirName: ', __dirname);
+
     return {
       type: 'postgres',
       host: this.configService.get<string>('database.host'),

@@ -24,7 +24,15 @@
     "migration:create": "npm run typeorm -- migration:create",
     "migration:run": "npm run typeorm -- --dataSource=libs/database/data-source/data-source.ts migration:run",
     "migration:revert": "npm run typeorm -- --dataSource=libs/database/data-source/data-source.ts migration:revert",
-    "seed:admin": "ts-node -r tsconfig-paths/register apps/admin/src/seeds/runSeed.ts"
+    "seed:admin": "ts-node -r tsconfig-paths/register apps/admin/src/seeds/runSeed.ts",
+    "migration:generate-admin": "npm run typeorm -- --dataSource=libs/database/data-source/admin-data-source.ts migration:generate libs/database/migrations/admin/admin",
+    "migration:run-admin": "npm run typeorm -- --dataSource=libs/database/data-source/admin-data-source.ts migration:run",
+    "migration:revert-admin": "npm run typeorm -- --dataSource=libs/database/data-source/admin-source.ts migration:revert",
+    "migration:generate-customer": "npm run typeorm -- --dataSource=libs/database/data-source/customer-data-source.ts migration:generate libs/database/migrations/customer/customer",
+    "migration:run-customer": "npm run typeorm -- --dataSource=libs/database/data-source/customer-data-source.ts migration:run",
+    "migration:revert-customer": "npm run typeorm -- --dataSource=libs/database/data-source/customer-data-source.ts migration:revert",
+    "migration:run-all": "npm run migration:run-admin || npm run migration:run-customer",
+    "migration:generate-all": "npm run migration:generate-admin || npm run migration:generate-customer"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
