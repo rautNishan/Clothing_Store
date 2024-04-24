@@ -1,19 +1,22 @@
-# name: Development BackEnd CI/CD
-# on:
-#   push:
-#     paths:
-#       - "BackEnd/apis/**"
-#     branches: [main, development]
+name: Development BackEnd CI/CD
+on:
+  push:
+    paths:
+      - "BackEnd/apis/**"
+    branches: [main, development]
 
-# jobs:
-#   build-and-test:
-#     runs-on: ubuntu-latest
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: "20.12.1"
-#       - name: Lint
-#         run: cd BackEnd/apis && npm run lint
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.12.1"
+      - name: Migration-Generate
+        run: cd BackEnd/apis && npm run migration:generate-all
+      - name: Migration-Run
+        run: cd BackEnd/apis && npm run migration:run-all
+
