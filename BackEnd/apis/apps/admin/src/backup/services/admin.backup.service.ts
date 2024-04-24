@@ -3,14 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { exec } from 'child_process';
 import * as fs from 'fs';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
-import { BackUpTablesDto } from '../dtos/backup.table.dto';
 
 @Injectable()
 export class AdminBackUpService {
   constructor(private readonly _configService: ConfigService) {}
   private readonly logger = new Logger(AdminBackUpService.name);
 
-  async databaseBackUp(): Promise<string> {
+  async databaseBackUp(databaseName: string): Promise<string> {
     try {
       //   const date = new Date();
 
@@ -19,9 +18,7 @@ export class AdminBackUpService {
         this._configService.get<string>('database.host');
 
       //Your database name (heroDatabase) for taking it's backup
-      const dbName: string | undefined = this._configService.get<string>(
-        'database.database_name',
-      );
+      const dbName: string | undefined = databaseName;
 
       //Your database user name
       const dbUsername: string | undefined =
@@ -73,18 +70,16 @@ export class AdminBackUpService {
     }
   }
 
-  async databaseTableBackUp(tableNames: BackUpTablesDto) {
+  async databaseTableBackUp(databaseName: string, tableNames: string[]) {
     try {
-      const { tables } = tableNames; //Extracting incoming table name from dto
+      // const { tables } = tableNames; //Extracting incoming table name from dto
 
       //Your database host (even if its on hosted on server)
       const dbHost: string | undefined =
         this._configService.get<string>('database.host');
 
       //Your database (name) for taking it's backup
-      const dbName: string | undefined = this._configService.get<string>(
-        'database.database_name',
-      );
+      const dbName: string | undefined = databaseName;
 
       //Your database user name
       const dbUsername: string | undefined =
@@ -108,7 +103,7 @@ export class AdminBackUpService {
         folderName + `database_tables_backup_${dbName}.tar`;
 
       //Map all the tables that need to be backed up
-      const tableOptions: string = tables
+      const tableOptions: string = tableNames
         .map((table) => `-t ${table}`)
         .join(' '); // this is how it will store '-t table1 -t table2'
 

@@ -12,9 +12,9 @@ import {
 } from 'libs/database/interface/database.interface';
 import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
 import { DeepPartial } from 'typeorm';
-import { CustomerEntity } from '../entity/customer.entity';
 import { CustomerRepository } from '../repositry/customer.repository';
 import * as bcrypt from 'bcrypt';
+import { CustomerEntity } from 'libs/entities/customer/customer.entity';
 @Injectable()
 export class CustomerService {
   constructor(

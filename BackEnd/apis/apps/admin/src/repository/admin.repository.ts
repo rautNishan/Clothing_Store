@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseRepository } from 'libs/database/repository/base.repository';
+import { AdminEntity } from 'libs/entities/admin/admin.entity';
 import { Repository } from 'typeorm';
-import { AdminEntity } from '../entity/admin.entity';
 
 @Injectable()
 export class AdminRepository extends BaseRepository<AdminEntity> {

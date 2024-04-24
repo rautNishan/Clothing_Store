@@ -1,5 +1,5 @@
+import { CustomerEntity } from 'libs/entities/customer/customer.entity';
 import { DeepPartial } from 'typeorm';
-import { CustomerEntity } from '../entity/customer.entity';
 
 export class ICustomerUpdate {
   id: number;

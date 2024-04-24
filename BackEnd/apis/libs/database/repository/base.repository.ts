@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, FindOneOptions, ILike, Repository } from 'typeorm';
-import { DbBaseEntity } from '../entity/base.entity';
+import { DbBaseEntity } from '../base-entity/base.entity';
 import {
   ICreateOptions,
   IFindManyOptions,

@@ -7,7 +7,7 @@ import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
-import { BackUpTablesDto } from '../dtos/backup.dto';
+import { BackUpTablesDto, DatabaseName } from '../dtos/backup.dto';
 import {
   AdminDataBaseBackUpSerialization,
   AdminDataBaseTableBackUpSerialization,
@@ -27,10 +27,13 @@ export class AdminBackUpController {
   @UserProtectedGuard()
   @ResponseMessage('Completed')
   @Post('/database')
-  async databaseBackUp(): Promise<string> {
+  async databaseBackUp(@Body() databaseName: DatabaseName): Promise<string> {
     try {
       return await firstValueFrom(
-        this._adminClient.send({ cmd: ADMIN_TCP.ADMIN_DATA_BASE_BACK_UP }, {}),
+        this._adminClient.send(
+          { cmd: ADMIN_TCP.ADMIN_DATA_BASE_BACK_UP },
+          databaseName,
+        ),
       );
     } catch (error) {
       throw error;
@@ -47,14 +50,14 @@ export class AdminBackUpController {
   @ResponseMessage('Completed')
   @Post('/table')
   async databaseTableBackUp(
-    @Body() incomingTables: BackUpTablesDto,
+    @Body() incomingData: BackUpTablesDto,
   ): Promise<string> {
     try {
       console.log('Request Made');
       return await firstValueFrom(
         this._adminClient.send(
           { cmd: ADMIN_TCP.ADMIN_DATA_BASE_TABLES_BACK_UP },
-          incomingTables,
+          incomingData,
         ),
       );
     } catch (error) {

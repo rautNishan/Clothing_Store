@@ -1,4 +1,4 @@
-import { BaseUserEntity } from 'libs/database/entity/base.user.entity';
+import { BaseUserEntity } from 'libs/database/base-entity/base.user.entity';
 import { Column, Entity } from 'typeorm';
 
 export class CustomerFullName {
