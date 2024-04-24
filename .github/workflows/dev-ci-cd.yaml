@@ -15,8 +15,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "20.12.1"
+      - name: Install Dependencies
+        run: cd BackEnd/apis && npm install
+        
       - name: Migration-Generate
         run: cd BackEnd/apis && npm run migration:generate-all
+
       - name: Migration-Run
         run: cd BackEnd/apis && npm run migration:run-all
 
