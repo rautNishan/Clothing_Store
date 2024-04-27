@@ -18,12 +18,12 @@ export class AppRouterModule {
       CustomerRouterModule,
       NestJsRouterModule.register([
         {
-          path: '/admin',
+          path: 'api/admin',
           module: AdminRouterModule,
         },
 
         {
-          path: '/customer',
+          path: 'api/customer',
           module: CustomerRouterModule,
         },
       ]),
