@@ -21,12 +21,12 @@ import { ResponseDataDecorator } from 'libs/response/decorators/response.data.de
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerCreateDto } from '../dtos/customer.create.dto';
+import { CustomerUpdateDto } from '../dtos/customer.update.dto';
+import { ICustomerUpdate } from '../interface/customer.update.interface';
 import {
   FinalCustomerPaginationSerialization,
   FinalCustomerSerialization,
 } from '../serializations/customer.serialization';
-import { CustomerUpdateDto } from '../dtos/customer.update.dto';
-import { ICustomerUpdate } from '../interface/customer.update.interface';
 
 @ApiTags('Customer')
 @Controller({
@@ -94,6 +94,13 @@ export class CustomerAdminController {
     serialization: FinalCustomerSerialization,
     defaultMessagePath: 'Successfully get by id',
     defaultStatusCode: HttpStatus.OK,
+    params: [
+      {
+        type: 'string',
+        name: 'id',
+        required: true,
+      },
+    ],
   })
   @UseParamGuard()
   @UserProtectedGuard()
@@ -108,10 +115,6 @@ export class CustomerAdminController {
         ),
       );
     } catch (error) {
-      console.log(
-        '🚀 ~ CustomerAdminController ~ getById ~ error API GATEWAY:',
-        error,
-      );
       throw error;
     }
   }

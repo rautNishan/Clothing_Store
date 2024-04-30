@@ -31,7 +31,7 @@ export class UserProtected implements CanActivate {
     const data: IJwtPayload = this.jwtService.decode(token);
 
     //get request url (which user is requesting which route | url)
-    const requestingRote = request.url.split('/')[1]; //Take the first since our rout is define that way
+    const requestingRote = request.url.split('/')[2]; //Take the first since our rout is define that way
 
     //Check the role of user and if it is requesting to the rout that it should be requested
     const { role } = data;
