@@ -5,7 +5,7 @@ export interface ReturnProps {
 }
 
 export function validationForm(
-  userName: string | null,
+  userName: string | null | undefined,
   password: string | null
 ): ReturnProps {
   let returnObject: ReturnProps = {

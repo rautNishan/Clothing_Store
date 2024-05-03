@@ -33,6 +33,7 @@ export class AuthCustomerController {
   })
   async login(@Body() incomingData: CustomerLoginDto): Promise<any> {
     try {
+      console.log('Request from AnyWhere');
       const token = await firstValueFrom(
         this._customerClient.send(
           { cmd: CUSTOMER_TCP.CUSTOMER_LOGIN },
