@@ -2,7 +2,7 @@
 import Link from "next/link";
 import styles from "./login.module.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { LoginCommon } from "@/app/common/helper/login.request";
 import { CustomError } from "@/app/common/errors/custom.error";
 import {
@@ -10,13 +10,16 @@ import {
   validationForm,
 } from "@/app/common/helper/login.form.validation";
 
+//Reference
+// React UserRef
+
 export default function CustomerLogin() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [userNameEmptyError, setUserNameEmptyError] = useState("");
   const [passwordEmptyError, setPasswordEmptyError] = useState("");
-
+  // const userNameRef = useRef();
   async function handleLogin() {
     try {
       const validateForm: ReturnProps = validationForm(userName, password);

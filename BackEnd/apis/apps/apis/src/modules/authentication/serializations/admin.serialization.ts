@@ -4,7 +4,8 @@ import { ResponseSerialization } from 'libs/response/serialization/response.seri
 export class AdminSerialization {
   @ApiProperty({
     type: String,
-    example: 'asdkajdhjshKJHSdkashdkjhdkjhajsKJHD',
+    example:
+      'asdkajdhjshKJHSdkashdkjhdkjhajsKJHDhkajhsdkahdkahdkahjhabsdabkhasdkhakdhaksdkadhkashmbmakbdkadkahdkjahsdkah',
   })
   token: string;
 }

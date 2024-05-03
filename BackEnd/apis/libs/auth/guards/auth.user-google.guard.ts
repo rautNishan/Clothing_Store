@@ -6,7 +6,6 @@ import { Request } from 'express';
 export class GoogleAuthGuard extends AuthGuard('google') {
   async canActivate(context: ExecutionContext) {
     try {
-      console.log('Can Activate function');
       const activate = (await super.canActivate(context)) as boolean;
       const request: Request = context.switchToHttp().getRequest<Request>();
       await super.logIn(request);
