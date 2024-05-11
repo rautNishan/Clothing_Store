@@ -33,7 +33,6 @@ export class AuthAdminController {
       );
       return { token };
     } catch (error) {
-      console.log('🚀 ~ AuthAdminController ~ login ~ error:', error);
       throw error;
     }
   }

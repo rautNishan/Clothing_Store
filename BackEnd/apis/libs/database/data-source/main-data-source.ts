@@ -17,8 +17,6 @@ export function AppDataSource(
   dataBaseName: string,
   entityPath: string,
 ): DataSource {
-  console.log('This is dirname: ', __dirname);
-
   return new DataSource({
     type: 'postgres',
     host: process.env.DATA_BASE_HOST_DEVELOPMENT,

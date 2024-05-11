@@ -14,7 +14,6 @@ export class AdminController {
       const data = await this._adminService.login(incomingData);
       return data;
     } catch (error) {
-      console.log('🚀 ~ AdminController ~ login ~ error:', error);
       throw new StrictRpcException(error);
     }
   }
