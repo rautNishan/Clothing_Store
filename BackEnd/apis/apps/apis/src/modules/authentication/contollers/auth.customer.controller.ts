@@ -47,16 +47,16 @@ export class AuthCustomerController {
     }
   }
 
-  @Get('/login/google')
+  @Get('/google/login')
   @GoogleProtected()
   async loginWithGoogle() {
     return 'google';
   }
 
-  @Get('/google/')
+  @Get('/google/redirect')
   @GoogleProtected()
-  async redirectAfterGoogleLogin() {
-    console.log('Request is made in /google/');
-    return 'ok';
+  async handleRedirect() {
+    console.log('Handle Redirect Method is Being Called');
+    return 'hulk is on google register';
   }
 }

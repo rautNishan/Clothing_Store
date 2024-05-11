@@ -17,17 +17,16 @@ export class AdminService {
       const existingAdmin: AdminEntity | null = await this._adminRepo.findOne({
         findOneOptions: { where: { userName: data.userName } },
       });
+
       if (!existingAdmin) {
         throw new StrictRpcException({
           statusCode: HttpStatus.UNAUTHORIZED,
           message: 'User name or password did not match',
         });
       }
-
       return await this._authService.checkAuthentication(data, existingAdmin);
     } catch (error) {
-      console.log('🚀 ~ AdminService ~ login ~ error:', error);
-      throw new StrictRpcException(error);
+      throw error;
     }
   }
 }

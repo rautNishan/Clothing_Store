@@ -32,8 +32,11 @@ export class HttpErrorFilter implements ExceptionFilter {
       _status = exception.getStatus();
       _message = exception.message;
     } else if (typeof exception === 'object' && exception != null) {
+      console.log('This is Microservices', exception);
+
       //For catching Exceptions from Micro-Services
       const _error = exception as IRpcException;
+
       _status = _error?.statusCode;
       _message = _error?.message;
     }

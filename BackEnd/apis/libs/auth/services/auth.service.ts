@@ -39,4 +39,8 @@ export class AuthService {
     const token = await this.jwtService.signAsync(payload);
     return token;
   }
+
+  async googleAuth() {
+    return 'this is google auth';
+  }
 }
