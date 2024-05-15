@@ -38,7 +38,9 @@ export class ResponseInterceptor<T> implements NestInterceptor<T> {
           const metaData = {
             path: _path,
           };
+
           const incomingResponseData: IResponse | IResponsePaging = await res;
+
           if (incomingResponseData) {
             _pagination = (incomingResponseData as IResponsePaging)
               ?._pagination;

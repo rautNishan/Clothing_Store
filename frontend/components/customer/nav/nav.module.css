@@ -3,6 +3,25 @@
   width: auto;
   padding: 10px;
   box-shadow: 0px 0px 6px 0px rgba(45, 45, 45, 0.2);
+  display: flex;
+  justify-content: space-between;
+  /* border: 2px solid black; */
+}
+
+.left_side_nav {
+  /* border: 2px solid black; */
+  height: 5vh;
+  width: auto;
+}
+
+.left_side_nav ul li .links {
+  padding-top: 0%;
+  font-size: 20px;
+}
+
+.right_side_nav {
+  height: 6vh;
+  width: 20%;
 }
 
 .u_list {
@@ -12,7 +31,7 @@
 }
 
 .list {
-  padding-right: 3%;
+  padding-right: 25%;
 }
 
 .links {
@@ -32,7 +51,6 @@
 }
 
 @media only screen and (max-width: 450px) {
-  
   .nav {
     margin: 0;
     height: 4vh;

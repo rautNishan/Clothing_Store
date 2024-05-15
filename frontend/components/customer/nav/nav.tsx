@@ -7,28 +7,44 @@ export default function RootNav() {
 
   return (
     <div className={styles.nav}>
-      <ul className={styles.u_list}>
-        <li className={styles.list}>
-          <Link
-            className={`${styles.links} ${
-              pathname === "/customer/hostels" ? styles.active : ""
-            }`}
-            href="/customer/hostels"
-          >
-            Hostels
-          </Link>
-        </li>
-        <li className={styles.list}>
-          <Link
-            className={`${styles.links}  ${
-              pathname === "/customer/login" ? styles.active : ""
-            }`}
-            href="/customer/login"
-          >
-            Login
-          </Link>
-        </li>
-      </ul>
+      <div className={styles.left_side_nav}>
+        <ul className={styles.u_list}>
+          <li className={styles.list}>
+            <Link
+              className={`${styles.links} ${
+                pathname === "/customer/hostels" ? styles.active : ""
+              }`}
+              href="/customer/hostels"
+            >
+              Hosteler
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.right_side_nav}>
+        <ul className={styles.u_list}>
+          <li className={styles.list}>
+            <Link
+              className={`${styles.links} ${
+                pathname === "/customer/hostels" ? styles.active : ""
+              }`}
+              href="/customer/hostels"
+            >
+              Hostels
+            </Link>
+          </li>
+          <li className={styles.list}>
+            <Link
+              className={`${styles.links}  ${
+                pathname === "/customer/login" ? styles.active : ""
+              }`}
+              href="/customer/login"
+            >
+              Login
+            </Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
