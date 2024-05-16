@@ -17,6 +17,7 @@
 .left_side_nav ul li .links {
   padding-top: 0%;
   font-size: 20px;
+  font-weight: bold;
 }
 
 .right_side_nav {
@@ -50,7 +51,7 @@
   color: #6d15de;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 550px) {
   .nav {
     margin: 0;
     height: 4vh;
@@ -62,11 +63,46 @@
     font-size: 11px;
   }
 
-  .list {
+  .right_side_nav .list {
     padding-right: 7%;
+    margin-left: 20px;
   }
 
   .u_list {
     margin: 0px;
+  }
+
+  .left_side_nav ul li .links {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .nav {
+    margin: 0;
+    height: 4vh;
+    padding-top: 10px;
+  }
+
+  .links {
+    padding-top: 0;
+    font-size: 12px;
+  }
+
+  .right_side_nav .list {
+    padding-right: 7%;
+    margin-left: 20px;
+  }
+
+  .u_list {
+    margin: 0px;
+  }
+
+  .left_side_nav ul li .links {
+    font-size: 14px;
+  }
+
+  .left_side_nav {
+    margin-left: 0px;
   }
 }

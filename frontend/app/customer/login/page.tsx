@@ -64,7 +64,7 @@ export default function CustomerLogin() {
         </label>
         <div className={styles.form_container}>
           <label htmlFor="UserName" className={styles.label}>
-            User Name
+            UserName
           </label>
           <input
             placeholder={userNameEmptyError || "UserName"}

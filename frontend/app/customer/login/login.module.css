@@ -3,7 +3,6 @@
   border-radius: 38px;
   height: auto;
   width: 60%;
-  min-width: 28rem;
   margin: auto;
   margin-top: 3.5%;
   display: flex;
@@ -14,8 +13,7 @@
 .text_container {
   border-radius: 38px;
   height: 100%;
-  width: 25%;
-  min-width: 28rem;
+  width: 42%;
   margin: auto;
   margin-top: 12.5%;
   display: flex;
@@ -37,8 +35,8 @@
 .login_container {
   border-radius: 38px;
   height: auto;
-  width: 25%;
-  min-width: 28rem;
+  width: 42%;
+  /* min-width: 28rem; */
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -205,10 +203,346 @@
   }
 
   .text_container {
-    width: 15%;
+    width: 45%;
   }
 
   .login_container {
-    width: 15%;
+    width: 45%;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .main_container {
+    width: 70%;
+    height: auto;
+    flex-wrap: wrap;
+  }
+
+  .login_container {
+    width: 70%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 80%;
+    border-radius: 38px;
+    height: 100%;
+    margin: auto;
+    margin-top: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .main_container {
+    width: 80%;
+    height: auto;
+    flex-wrap: wrap;
+  }
+
+  .login_container {
+    width: 80%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 80%;
+    border-radius: 38px;
+    height: 100%;
+  }
+
+  .side_text {
+    /* border: 2px solid black; */
+    text-align: center;
+    margin: auto;
+    width: 80%;
+  }
+
+  /* .side_text h1 {
+    font-size: 20px;
+  }
+  .side_text p {
+    font-size: 12px;
+  } */
+}
+
+@media only screen and (max-width: 625px) {
+  .main_container {
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    margin-top: 0;
+    border-radius: 0px;
+  }
+
+  .login_container {
+    width: 80%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 90%;
+    border-radius: 38px;
+    height: 100%;
+  }
+
+  .side_text {
+    text-align: center;
+    margin: auto;
+    width: 80%;
+  }
+
+  .side_text h1 {
+    font-size: 24px;
+  }
+  .side_text p {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 490px) {
+  .main_container {
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    margin-top: 0;
+    border-radius: 0px;
+  }
+
+  .login_container {
+    width: 80%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 80%;
+    border-radius: 38px;
+  }
+
+  .side_text {
+    text-align: center;
+    margin: auto;
+    width: 90%;
+  }
+
+  .side_text h1 {
+    font-size: 15px;
+  }
+  .side_text p {
+    font-size: 12px;
+  }
+
+  .sub_text {
+    font-size: 12px;
+  }
+
+  .login_text {
+    font-size: 15px;
+  }
+
+  .label {
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .input::placeholder {
+    font-size: 11px;
+  }
+
+  .input {
+    padding: 7px;
+  }
+
+  .forget_password {
+    font-size: 12px;
+  }
+
+  .login_button {
+    width: 80%;
+    height: 2rem;
+    font-size: 13px;
+  }
+
+  .continue_with_google {
+    height: 2rem;
+    font-size: 12px;
+  }
+
+  .continue_with_email {
+    font-size: 12.5px;
+  }
+
+  .new_to_app {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .main_container {
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    margin-top: 0;
+    border-radius: 0px;
+  }
+
+  .login_container {
+    width: 90%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 80%;
+    border-radius: 38px;
+  }
+
+  .side_text {
+    text-align: center;
+    margin: auto;
+    width: 90%;
+  }
+
+  .input::placeholder {
+    font-size: 11px;
+  }
+
+  .side_text h1 {
+    font-size: 14px;
+  }
+  .side_text p {
+    font-size: 12px;
+  }
+
+  .sub_text {
+    font-size: 12px;
+  }
+
+  .login_text {
+    font-size: 15px;
+  }
+
+  .label {
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .input {
+    padding: 8px;
+  }
+
+  .forget_password {
+    font-size: 12px;
+  }
+
+  .login_button {
+    width: 80%;
+    height: 2rem;
+    font-size: 13px;
+  }
+
+  .continue_with_google {
+    height: 2rem;
+    font-size: 12px;
+  }
+
+  .continue_with_email {
+    font-size: 12.5px;
+  }
+
+  .new_to_app {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 325px) {
+  .main_container {
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    margin-top: 0;
+    border-radius: 0px;
+  }
+
+  .login_container {
+    width: 90%;
+    border-radius: 38px;
+    box-shadow: 0px 0px 5px 0px #d6d5d5;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .text_container {
+    width: 90%;
+    border-radius: 38px;
+  }
+
+  .side_text {
+    text-align: center;
+    margin: auto;
+    width: 90%;
+  }
+
+  .side_text h1 {
+    font-size: 13.5px;
+  }
+  .side_text p {
+    font-size: 11.5px;
+  }
+
+  .sub_text {
+    font-size: 11.5px;
+  }
+
+  .login_text {
+    font-size: 13.5px;
+  }
+
+  .label {
+    font-size: 11.5px;
+  }
+
+  .input {
+    padding: 6px;
+  }
+
+  .forget_password {
+    font-size: 11.5px;
+  }
+
+  .login_button {
+    width: 80%;
+    height: 1.7rem;
+    font-size: 13px;
+  }
+
+  .continue_with_google {
+    height: 1.7rem;
+    font-size: 12px;
+  }
+
+  .continue_with_email {
+    font-size: 11px;
+  }
+
+  .new_to_app {
+    font-size: 11px;
   }
 }
