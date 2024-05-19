@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./login.module.css";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { LoginCommon } from "@/app/common/helper/login.request";
+import { GoogleLogin, LoginCommon } from "@/app/common/helper/login.request";
 import { CustomError } from "@/app/common/errors/custom.error";
 import {
   ReturnProps,
@@ -15,14 +15,21 @@ import {
 
 export default function CustomerLogin() {
   const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [userNameEmptyError, setUserNameEmptyError] = useState("");
   const [passwordEmptyError, setPasswordEmptyError] = useState("");
+
   // const userNameRef = useRef();
   async function handleLogin() {
     try {
-      const validateForm: ReturnProps = validationForm(userName, password);
+      const validateForm: ReturnProps = validationForm(
+        userName,
+        email,
+        password
+      );
+
       if (validateForm.isEmpty) {
         if (validateForm.forUserName) {
           setUserNameEmptyError(validateForm.forUserName);
@@ -31,7 +38,7 @@ export default function CustomerLogin() {
           setPasswordEmptyError(validateForm.forPassword);
         }
       } else {
-        const loginData = await LoginCommon({ userName, password });
+        const loginData = await LoginCommon({ userName, email, password });
         console.log("This is Login Data: ", loginData);
       }
     } catch (error) {
@@ -42,6 +49,11 @@ export default function CustomerLogin() {
         setErrorMessage(error._error.message);
       }
     }
+  }
+
+  async function googleLogin() {
+    const data = await GoogleLogin();
+    console.log("This is Data: ", data);
   }
 
   return (
@@ -67,16 +79,22 @@ export default function CustomerLogin() {
             UserName
           </label>
           <input
-            placeholder={userNameEmptyError || "UserName"}
+            placeholder={userNameEmptyError || "UserName or Email"}
             className={`${styles.input} ${
               userNameEmptyError
                 ? `${styles.inputError} ${styles.inputBorderError}`
                 : ""
             }`}
             type="text"
-            value={userName}
             onChange={(e) => {
+              const emailRegEx = /\S+@\S+\.\S+/;
               setUserName(e.target.value);
+              setEmail(e.target.value);
+              if (emailRegEx.test(e.target.value)) {
+                setUserName("");
+              } else {
+                setEmail("");
+              }
               if (e.target.value.trim() !== "") {
                 setUserNameEmptyError("");
               }
@@ -113,7 +131,7 @@ export default function CustomerLogin() {
           Login
         </button>
         <label className={styles.sub_text}>-or-</label>
-        <button className={styles.continue_with_google}>
+        <button onClick={googleLogin} className={styles.continue_with_google}>
           <div className={styles.google_img}>
             <Image
               src="/svg/icons8-google-48.png"

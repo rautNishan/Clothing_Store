@@ -30,7 +30,6 @@ export class CustomerService {
       existingCustomer = await this._customerRepository.findOne({
         findOneOptions: { where: { userName: incomingData.userName } },
       });
-      console.log('This is  Existing Customer: ', existingCustomer);
       if (!existingCustomer) {
         console.log('There is not existingCustomer: ', existingCustomer);
         throw new StrictRpcException({

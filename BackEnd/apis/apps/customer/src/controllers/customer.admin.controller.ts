@@ -54,7 +54,6 @@ export class CustomerAdminController {
       paginationOptions.searchableFields = ['userName', 'email'];
       const data =
         await this._customerService.findAllWithPagination(paginationOptions);
-      console.log('This is Data: ', data);
 
       return data;
     } catch (error) {
