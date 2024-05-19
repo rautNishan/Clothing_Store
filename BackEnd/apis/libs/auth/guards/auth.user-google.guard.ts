@@ -22,7 +22,5 @@ export class GoogleAuthGuard extends AuthGuard('google') {
 //   constructor() {}
 //   async canActivate(
 //     context: ExecutionContext,
-//   ): boolean | Promise<boolean> | Observable<boolean> {
-
-//   }
+//   ): boolean | Promise<boolean> | Observable<boolean> {}
 // }

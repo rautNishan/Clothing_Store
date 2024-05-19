@@ -1,14 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Inject,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { GoogleProtected } from 'libs/auth/decorators/user-google.decorator';
 import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { CUSTOMER_TCP } from 'libs/constant/tcp/Customer/customer.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
@@ -33,7 +25,7 @@ export class AuthCustomerController {
   })
   async login(@Body() incomingData: CustomerLoginDto): Promise<any> {
     try {
-      console.log('Request from AnyWhere');
+      console.log('This is Incoming Data: ', incomingData);
       const token = await firstValueFrom(
         this._customerClient.send(
           { cmd: CUSTOMER_TCP.CUSTOMER_LOGIN },
@@ -42,21 +34,21 @@ export class AuthCustomerController {
       );
       return { token };
     } catch (error) {
-      console.log('🚀 ~ AuthCustomerController ~ login ~ error:', error);
       throw error;
     }
   }
 
-  @Get('/google/login')
-  @GoogleProtected()
-  async loginWithGoogle() {
-    return 'google';
-  }
+  // @GoogleProtected()
+  // @Get('/google/login')
+  // async loginWithGoogle() {
+  //   console.log('Request is Made');
+  //   return 'google';
+  // }
 
-  @Get('/google/redirect')
-  @GoogleProtected()
-  async handleRedirect() {
-    console.log('Handle Redirect Method is Being Called');
-    return 'hulk is on google register';
-  }
+  // @GoogleProtected()
+  // @Get('/google/redirect')
+  // async handleRedirect() {
+  //   console.log('Handle Redirect Method is Being Called');
+  //   return 'hulk is on google register';
+  // }
 }

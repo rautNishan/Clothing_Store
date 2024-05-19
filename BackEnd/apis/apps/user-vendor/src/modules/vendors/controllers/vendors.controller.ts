@@ -3,7 +3,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { USER_VENDOR_TCP } from 'libs/constant/tcp/User-Vendor/UserVendor.tcp.constant';
 
 @Controller('user-information')
-export class UserInformationController {
+export class VendorController {
   constructor() {}
 
   @MessagePattern({ cmd: USER_VENDOR_TCP.USER_VENDOR_REGISTER })
