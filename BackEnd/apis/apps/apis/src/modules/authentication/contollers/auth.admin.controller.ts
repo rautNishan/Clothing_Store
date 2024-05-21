@@ -1,17 +1,17 @@
 import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
+import { ADMIN } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
+import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
 import { AdminLoginDto } from '../dtos/admin.login.dto';
-import { Admin } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { FinalAdminSerialization } from '../serializations/admin.serialization';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthAdminController {
-  constructor(@Inject(Admin.name) private readonly _adminClient: ClientProxy) {}
+  constructor(@Inject(ADMIN.name) private readonly _adminClient: ClientProxy) {}
 
   @Post('/login')
   @ApiDoc({

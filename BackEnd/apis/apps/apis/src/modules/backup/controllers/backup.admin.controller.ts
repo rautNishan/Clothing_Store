@@ -2,7 +2,7 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
-import { Admin } from 'libs/constant/micro-services-names/micro-services-names.constant';
+import { ADMIN } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
@@ -16,7 +16,7 @@ import {
 @ApiTags('Back Up')
 @Controller('backup')
 export class AdminBackUpController {
-  constructor(@Inject(Admin.name) private readonly _adminClient: ClientProxy) {}
+  constructor(@Inject(ADMIN.name) private readonly _adminClient: ClientProxy) {}
 
   @ApiDoc({
     operation: 'Admin Create DataBase BackUp',

@@ -12,7 +12,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
-import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
+import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
@@ -35,7 +35,7 @@ import {
 })
 export class CustomerAdminController {
   constructor(
-    @Inject(Customer.name) private readonly _adminClient: ClientProxy,
+    @Inject(CUSTOMER.name) private readonly _adminClient: ClientProxy,
   ) {}
 
   @ApiDoc({

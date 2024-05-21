@@ -1,46 +1,47 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AuthModule } from 'libs/auth/auth.module';
 import {
-  Admin,
-  Customer,
-  User_Vendor,
+  ADMIN,
+  CUSTOMER,
+  USER_VENDOR,
 } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
 import { ExceptionFilterModule } from 'libs/error/error.http.module';
 import { ResponseModule } from 'libs/response/response.module';
 import { AuthAdminController } from '../../modules/authentication/contollers/auth.admin.controller';
-import { CustomerAdminController } from '../../modules/customer/controllers/customer.admin.controller';
-import { AuthModule } from 'libs/auth/auth.module';
 import { AdminBackUpController } from '../../modules/backup/controllers/backup.admin.controller';
+import { CustomerAdminController } from '../../modules/customer/controllers/customer.admin.controller';
+import { VendorAdminController } from '../../modules/vendor/controllers/vendor.admin.controller';
 
 @Module({
   imports: [
     ClientsModule.register([
       //Admin
       {
-        name: Admin.name,
+        name: ADMIN.name,
         transport: Transport.TCP,
         options: {
-          host: Admin.host || 'localhost',
-          port: Admin.port || 5000,
+          host: ADMIN.host || 'localhost',
+          port: ADMIN.port || 5000,
         },
       },
       //UserVendor
       {
-        name: User_Vendor.name,
+        name: USER_VENDOR.name,
         transport: Transport.TCP,
         options: {
-          host: User_Vendor.host,
-          port: User_Vendor.port,
+          host: USER_VENDOR.host,
+          port: USER_VENDOR.port,
         },
       },
       {
-        name: Customer.name,
+        name: CUSTOMER.name,
         transport: Transport.TCP,
         options: {
-          host: Customer.host || 'localhost',
-          port: Customer.port || 5001,
+          host: CUSTOMER.host || 'localhost',
+          port: CUSTOMER.port || 5001,
         },
       },
     ]),
@@ -54,6 +55,7 @@ import { AdminBackUpController } from '../../modules/backup/controllers/backup.a
     AuthAdminController,
     CustomerAdminController,
     AdminBackUpController,
+    VendorAdminController,
   ],
 })
 export class AdminRouterModule {}
