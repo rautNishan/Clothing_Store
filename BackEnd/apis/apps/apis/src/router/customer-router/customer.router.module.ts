@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthModule } from 'libs/auth/auth.module';
-import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
+import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
 import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
 import { DebuggerModule } from 'libs/debugger/debugger.module';
 import { ExceptionFilterModule } from 'libs/error/error.http.module';
@@ -30,11 +30,11 @@ import { AuthCustomerController } from '../../modules/authentication/contollers/
       //     },
       //   },
       {
-        name: Customer.name,
+        name: CUSTOMER.name,
         transport: Transport.TCP,
         options: {
-          host: Customer.host || 'localhost',
-          port: Customer.port || 5001,
+          host: CUSTOMER.host || 'localhost',
+          port: CUSTOMER.port || 5001,
         },
       },
     ]),

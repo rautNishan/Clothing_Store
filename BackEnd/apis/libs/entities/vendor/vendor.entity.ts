@@ -7,7 +7,9 @@ export class VendorFullName {
   lastName: string;
 }
 
-@Entity({ name: 'vendor' })
+export const VENDOR_TABLE_NAME = 'vendor';
+
+@Entity({ name: VENDOR_TABLE_NAME })
 export class VendorEntity extends BaseUserEntity {
   @Column({
     type: 'jsonb',

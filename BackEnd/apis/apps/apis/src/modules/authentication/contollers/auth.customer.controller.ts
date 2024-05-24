@@ -1,8 +1,8 @@
 import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { Customer } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { CUSTOMER_TCP } from 'libs/constant/tcp/Customer/customer.tcp.constant';
+import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
+import { CUSTOMER_TCP } from 'libs/constant/tcp/customer/customer.tcp.constant';
 import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
 import { CustomerLoginDto } from '../dtos/customer.login.dto';
@@ -12,7 +12,7 @@ import { FinalCustomerSerialization } from '../serializations/customer.serializa
 @Controller('auth')
 export class AuthCustomerController {
   constructor(
-    @Inject(Customer.name) private readonly _customerClient: ClientProxy,
+    @Inject(CUSTOMER.name) private readonly _customerClient: ClientProxy,
   ) {}
 
   @Post('/login')
