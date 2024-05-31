@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'libs/auth/auth.module';
-import { DatabaseModule } from 'libs/database/database.module';
-import { DatabaseService } from 'libs/database/services/database.providers';
-import { MicroServiceErrorModule } from 'libs/error/error.micro-services.module';
+import { AuthModule } from 'libs/common/auth/auth.module';
+import { DatabaseModule } from 'libs/common/database/database.module';
+import { DatabaseService } from 'libs/common/database/services/database.providers';
+import { MicroServiceErrorModule } from 'libs/common/error/error.micro-services.module';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { CustomerAdminController } from './controllers/customer.admin.controller';
 import { CustomerController } from './controllers/customer.controller';

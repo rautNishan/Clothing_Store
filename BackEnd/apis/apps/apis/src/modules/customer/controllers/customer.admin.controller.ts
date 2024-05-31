@@ -11,17 +11,17 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
-import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
-import { PaginationQueryDto } from 'libs/docs/query/paginationQuery.dto';
-import { UseParamGuard } from 'libs/request/decorators/param.guard.decorator';
-import { ResponseDataDecorator } from 'libs/response/decorators/response.data.decorator';
-import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
+import { UserProtectedGuard } from 'libs/common/auth/decorators/user-protected-decorator';
+import { CUSTOMER } from 'libs/common/constant/micro-services-names/micro-services-names.constant';
+import { ADMIN_TCP } from 'libs/common/constant/tcp/admin/admin.tcp.constant';
+import { ApiDoc } from 'libs/common/docs/decorators/doc.decorator';
+import { PaginationQueryDto } from 'libs/common/docs/query/paginationQuery.dto';
+import { CustomerCreateDto } from 'libs/common/dtos/customer/customer.create.dto';
+import { CustomerUpdateDto } from 'libs/common/dtos/customer/customer.update.dto';
+import { UseParamGuard } from 'libs/common/request/decorators/param.guard.decorator';
+import { ResponseDataDecorator } from 'libs/common/response/decorators/response.data.decorator';
+import { ResponseMessage } from 'libs/common/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
-import { CustomerCreateDto } from '../dtos/customer.create.dto';
-import { CustomerUpdateDto } from '../dtos/customer.update.dto';
 import { ICustomerUpdate } from '../interface/customer.update.interface';
 import {
   FinalCustomerPaginationSerialization,

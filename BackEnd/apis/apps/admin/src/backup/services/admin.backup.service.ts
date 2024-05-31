@@ -2,7 +2,7 @@ import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { exec } from 'child_process';
 import * as fs from 'fs';
-import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
+import { StrictRpcException } from 'libs/common/error/strict-rpc-class/micro-service-error';
 
 @Injectable()
 export class AdminBackUpService {

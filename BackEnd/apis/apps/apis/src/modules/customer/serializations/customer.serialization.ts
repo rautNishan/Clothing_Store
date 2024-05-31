@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ResponsePaginationSerialization,
   ResponseSerialization,
-} from 'libs/response/serialization/response.serialization';
+} from 'libs/common/response/serialization/response.serialization';
 
 export class CustomerFullName {
   @ApiProperty({

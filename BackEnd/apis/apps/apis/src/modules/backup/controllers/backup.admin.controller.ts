@@ -1,17 +1,21 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { UserProtectedGuard } from 'libs/auth/decorators/user-protected-decorator';
-import { ADMIN } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
-import { ResponseMessage } from 'libs/response/decorators/response.message.decorator';
+import { UserProtectedGuard } from 'libs/common/auth/decorators/user-protected-decorator';
+import { ADMIN } from 'libs/common/constant/micro-services-names/micro-services-names.constant';
+import { ADMIN_TCP } from 'libs/common/constant/tcp/admin/admin.tcp.constant';
+import { ApiDoc } from 'libs/common/docs/decorators/doc.decorator';
+
+import { ResponseMessage } from 'libs/common/response/decorators/response.message.decorator';
 import { firstValueFrom } from 'rxjs';
-import { BackUpTablesDto, DatabaseName } from '../dtos/backup.dto';
 import {
   AdminDataBaseBackUpSerialization,
   AdminDataBaseTableBackUpSerialization,
 } from '../serializations/admin.serialization';
+import {
+  BackUpTablesDto,
+  DatabaseName,
+} from 'libs/common/dtos/backups/backup.dto';
 
 @ApiTags('Back Up')
 @Controller('backup')

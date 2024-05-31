@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { AuthService } from 'libs/auth/services/auth.service';
-import { BaseUserEntity } from 'libs/database/base-entity/base.user.entity';
-import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
+import { AuthService } from 'libs/common/auth/services/auth.service';
+import { BaseUserEntity } from 'libs/common/database/base-entity/base.user.entity';
+import { StrictRpcException } from 'libs/common/error/strict-rpc-class/micro-service-error';
 import { AdminRepository } from '../repository/admin.repository';
-import { AdminEntity } from 'libs/entities/admin/admin.entity';
+import { AdminEntity } from 'libs/common/entities/admin/admin.entity';
 
 @Injectable()
 export class AdminService {

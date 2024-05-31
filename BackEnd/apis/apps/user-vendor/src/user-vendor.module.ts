@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import vendorDatabaseConfig from '../src/config/vendor.database.config';
 import * as Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabaseService } from 'libs/database/services/database.providers';
+import { DatabaseService } from 'libs/common/database/services/database.providers';
 import { DataSource, DataSourceOptions } from 'typeorm';
 @Module({
   imports: [

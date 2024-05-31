@@ -1,15 +1,15 @@
 import { Controller, HttpStatus } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
+import { ADMIN_TCP } from 'libs/common/constant/tcp/admin/admin.tcp.constant';
 import {
   IPaginatedOptions,
   IPaginationResponse,
-} from 'libs/database/interface/database.interface';
-import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
+} from 'libs/common/database/interface/database.interface';
+import { StrictRpcException } from 'libs/common/error/strict-rpc-class/micro-service-error';
 import { DataSource, DeepPartial, QueryRunner } from 'typeorm';
 import { CustomerService } from '../services/customer.service';
 import { ICustomerUpdate } from '../interfaces/customer.update.interface';
-import { CustomerEntity } from 'libs/entities/customer/customer.entity';
+import { CustomerEntity } from 'libs/common/entities/customer/customer.entity';
 
 //These are all admin controls
 @Controller('customer')

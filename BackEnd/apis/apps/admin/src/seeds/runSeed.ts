@@ -1,4 +1,4 @@
-import { AppDataSource } from 'libs/database/data-source/main-data-source';
+import { AppDataSource } from 'libs/common/database/data-source/main-data-source';
 import { DataSource } from 'typeorm';
 import { AdminSeed } from './admin.seed';
 

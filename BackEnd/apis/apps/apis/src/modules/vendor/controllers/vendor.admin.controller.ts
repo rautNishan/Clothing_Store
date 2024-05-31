@@ -1,10 +1,10 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { USER_VENDOR } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { ADMIN_TCP } from 'libs/constant/tcp/admin/admin.tcp.constant';
+import { USER_VENDOR } from 'libs/common/constant/micro-services-names/micro-services-names.constant';
+import { ADMIN_TCP } from 'libs/common/constant/tcp/admin/admin.tcp.constant';
+import { VendorCreateDto } from 'libs/common/dtos/vendor/vendor.create.dto';
 import { firstValueFrom } from 'rxjs';
-import { VendorCreateDto } from '../dtos/vendor.create.dto';
 
 @ApiTags('Vendor')
 @Controller({
