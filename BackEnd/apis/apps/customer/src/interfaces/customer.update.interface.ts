@@ -1,4 +1,4 @@
-import { CustomerEntity } from 'libs/entities/customer/customer.entity';
+import { CustomerEntity } from 'libs/common/entities/customer/customer.entity';
 import { DeepPartial } from 'typeorm';
 
 export class ICustomerUpdate {

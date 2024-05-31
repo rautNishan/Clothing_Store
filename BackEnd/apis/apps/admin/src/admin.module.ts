@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 
-import { AuthModule } from 'libs/auth/auth.module';
-import { DatabaseModule } from 'libs/database/database.module';
-import { MicroServiceErrorModule } from 'libs/error/error.micro-services.module';
+import { AuthModule } from 'libs/common/auth/auth.module';
+import { DatabaseModule } from 'libs/common/database/database.module';
+import { MicroServiceErrorModule } from 'libs/common/error/error.micro-services.module';
 import { AdminBackUpModule } from './backup/admin.backup.module';
 import { AdminController } from './controller/admin.controller';
 import { AdminRepositoryModule } from './repository/admin.repository.module';
 import { AdminService } from './services/admin.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseService } from 'libs/database/services/database.providers';
+import { DatabaseService } from 'libs/common/database/services/database.providers';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import databaseConfig from './config/database.config';
 import * as Joi from 'joi';

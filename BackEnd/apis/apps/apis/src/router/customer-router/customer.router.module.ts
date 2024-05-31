@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AuthModule } from 'libs/auth/auth.module';
-import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { DebuggerLoggerModule } from 'libs/debugger/debugger.logger.module';
-import { DebuggerModule } from 'libs/debugger/debugger.module';
-import { ExceptionFilterModule } from 'libs/error/error.http.module';
-import { ResponseModule } from 'libs/response/response.module';
+import { AuthModule } from 'libs/common/auth/auth.module';
+import { CUSTOMER } from 'libs/common/constant/micro-services-names/micro-services-names.constant';
+import { DebuggerLoggerModule } from 'libs/common/debugger/debugger.logger.module';
+import { DebuggerModule } from 'libs/common/debugger/debugger.module';
+import { ExceptionFilterModule } from 'libs/common/error/error.http.module';
+import { ResponseModule } from 'libs/common/response/response.module';
 import { AuthCustomerController } from '../../modules/authentication/contollers/auth.customer.controller';
 
 @Module({

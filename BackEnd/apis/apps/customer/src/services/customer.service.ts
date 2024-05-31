@@ -1,7 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { CustomerLoginDto } from 'apps/apis/src/modules/authentication/dtos/customer.login.dto';
-import { AuthService } from 'libs/auth/services/auth.service';
-import { ROLES } from 'libs/database/constants/base.roles.enum';
+import { AuthService } from 'libs/common/auth/services/auth.service';
+import { ROLES } from 'libs/common/database/constants/base.roles.enum';
 import {
   ICreateOptions,
   IFindManyOptions,
@@ -9,12 +8,13 @@ import {
   IPaginatedOptions,
   IPaginationResponse,
   IUpdateOptions,
-} from 'libs/database/interface/database.interface';
-import { StrictRpcException } from 'libs/error/strict-rpc-class/micro-service-error';
+} from 'libs/common/database/interface/database.interface';
+import { StrictRpcException } from 'libs/common/error/strict-rpc-class/micro-service-error';
 import { DeepPartial } from 'typeorm';
 import { CustomerRepository } from '../repositry/customer.repository';
 import * as bcrypt from 'bcrypt';
-import { CustomerEntity } from 'libs/entities/customer/customer.entity';
+import { CustomerEntity } from 'libs/common/entities/customer/customer.entity';
+import { CustomerLoginDto } from 'libs/common/dtos/authentication/customer.login.dto';
 @Injectable()
 export class CustomerService {
   constructor(

@@ -1,11 +1,11 @@
 import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { CUSTOMER } from 'libs/constant/micro-services-names/micro-services-names.constant';
-import { CUSTOMER_TCP } from 'libs/constant/tcp/customer/customer.tcp.constant';
-import { ApiDoc } from 'libs/docs/decorators/doc.decorator';
+import { CUSTOMER } from 'libs/common/constant/micro-services-names/micro-services-names.constant';
+import { CUSTOMER_TCP } from 'libs/common/constant/tcp/customer/customer.tcp.constant';
+import { ApiDoc } from 'libs/common/docs/decorators/doc.decorator';
 import { firstValueFrom } from 'rxjs';
-import { CustomerLoginDto } from '../dtos/customer.login.dto';
+import { CustomerLoginDto } from '../../../../../../libs/common/dtos/authentication/customer.login.dto';
 import { FinalCustomerSerialization } from '../serializations/customer.serialization';
 
 @ApiTags('Authentication')
